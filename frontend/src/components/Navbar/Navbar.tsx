@@ -6,21 +6,29 @@ const Navbar: React.FC = () => {
   const navItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Services", link: "/services" },
     { name: "Contact", link: "/contact" },
+    { name: "Profile", link: "/profile" },
   ];
 
   const navigate = useNavigate();
 
   return (
     <nav className={styles.navbar}>
-      <ul>
-        {navItems.map((item) => (
-          <li key={item.name}>
-            <button onClick={() => navigate(item.link)}>{item.name}</button>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.navbarContent}>
+        <div className={styles.logo}></div>
+
+        <div className={styles.desktopMenu}>
+          {navItems.map((item) => (
+            <button
+              key={item.name}
+              className={styles.navButton}
+              onClick={() => navigate(item.link)}
+            >
+              {item.name}
+            </button>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 };
