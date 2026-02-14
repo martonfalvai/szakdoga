@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('utilities', function (Blueprint $table) {
             $table->id();
-            $table->string('rent_id', 36);
+            $table->foreignId("rent_id")->constrained("rents");
             $table->foreignId('utility_option_id', 36)->constrained('utility_options');
-        
         });
     }
 
