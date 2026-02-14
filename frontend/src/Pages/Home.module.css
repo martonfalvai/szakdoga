@@ -1,0 +1,85 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  
+  .heroSection {
+    text-align: center;
+    margin-bottom: 60px;
+    color: #4a3425;
+  }
+  
+  .heroSection h1 {
+    font-size: 42px;
+    margin: 30px 0 16px 0;
+  }
+  
+  .heroSection p {
+    font-size: 18px;
+    color: #7c5a32;
+  }
+  
+  .apartmentGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    width: 100%;
+    margin-bottom: 60px;
+  }
+  
+  .apartmentCard {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    color: #4a3425;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+  }
+  
+  .apartmentCard:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(120, 90, 60, 0.2);
+  }
+  
+  .apartmentImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .apartmentCard h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+  }
+  
+  .apartmentCard p {
+    font-size: 14px;
+    color: #7c5a32;
+  }
+  
+  @media (max-width: 1024px) {
+    .apartmentGrid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .apartmentGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .apartmentGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

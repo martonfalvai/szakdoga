@@ -1,12 +1,120 @@
 .navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  
+    background: rgba(242, 197, 151, 0.75);
+    border-bottom: 1px solid rgba(120, 90, 60, 0.15);
+  
+    z-index: 1000;
+  }
+  
+  .navbarContent {
+    max-width: 1300px;
+    margin: 0 auto;
+    height: 75px;
+    padding: 0 30px;
+  
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
-    background-color: #333;
-}
-
-.navbarContent {
+  }
+  
+ 
+  .logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #4a3425; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .logo:hover {
+    opacity: 0.75;
+  }
+  
+ 
+  .centerMenu {
+    display: flex;
+    gap: 40px;
+  }
+  
+  .navButton {
+    background: none;
+    border: none;
+    color: #5c4033;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    padding: 6px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .navButton:hover {
+    color: #2b1d14;
+  }
+  
+  .navButton::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: #8b5e3c; 
+    transition: width 0.3s ease;
+  }
+  
+  .navButton:hover::after {
+    width: 100%;
+  }
+  
+  .rightMenu {
     display: flex;
     align-items: center;
-}
+    gap: 20px;
+  }
+  
+
+  .searchInput {
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: 1px solid rgba(120, 90, 60, 0.3);
+    outline: none;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.15); 
+    color: #4a3425;
+    transition: all 0.3s ease;
+    width: 180px;
+  }
+  
+  .searchInput::placeholder {
+    color: #7c5a32;
+  }
+  
+  .searchInput:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(120, 90, 60, 0.5);
+    box-shadow: 0 0 6px rgba(120, 90, 60, 0.3);
+  }
+
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    color: #5c4033;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 6px;
+    border-radius: 50%;
+  }
+  
+  .icon:hover {
+    background: rgba(120, 80, 50, 0.15);
+    transform: scale(1.1);
+  }
+  
