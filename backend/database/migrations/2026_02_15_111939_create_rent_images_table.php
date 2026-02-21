@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('rent_images', function (Blueprint $table) {
             $table->id();
-            $table->string('rent_id');
-            $table->string('url');
-
+            $table->foreignId('rent_id')->constrained('rents')->cascadeOnDelete();
+            $table->longText('base64');
             $table->timestamps();
         });
     }

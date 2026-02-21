@@ -13,7 +13,7 @@ class RentImageController extends Controller
      */
     public function index()
     {
-        //
+        return Rent_image::all();
     }
 
     /**

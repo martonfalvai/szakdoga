@@ -10,9 +10,7 @@ class Rent_image extends Model
     /** @use HasFactory<\Database\Factories\RentImageFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'rent_id',
-        'url',
-        
-    ];
+    // DISPLAY IMAGE: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..." alt="Embedded Logo">
+
+    protected $fillable = ['rent_id', 'base64'];
 }

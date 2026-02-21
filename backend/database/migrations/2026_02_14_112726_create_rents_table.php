@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('rents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rent_type')->constrained('rent_types');
-            $table->string('title',255);
-            $table->dateTime('highlighted')->default(null);
+            $table->string('title', 255);
+            $table->dateTime('highlighted')->nullable();
             $table->string('description');
             $table->double('price');
             $table->string('currency');
@@ -26,10 +26,8 @@ return new class extends Migration
             $table->integer('bedrooms');
             $table->integer('bathrooms');
             $table->string('status');
-            $table->foreignId('defaultimage')->constrained('rent_images');
+            $table->unsignedBigInteger('defaultimage')->nullable();
             $table->dateTime('available_from');
-
-
             $table->timestamps();
         });
     }
