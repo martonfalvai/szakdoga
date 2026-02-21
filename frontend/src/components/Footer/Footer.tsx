@@ -6,8 +6,6 @@ const Footer: React.FC = () => {
   const orbRef = useRef<HTMLDivElement>(null);
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
-
-
   const footerLinks = [
     { label: "Adatvédelmi nyilatkozat", to: "/privacy" },
     { label: "Felhasználási feltételek", to: "/terms" },
@@ -15,7 +13,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className=" bg-[#f2c597d9] text-white overflow-hidden">
+    <footer className="relative bg-[#f2c597d9] text-white overflow-hidden">
       {/* Animated background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20"></div>
 

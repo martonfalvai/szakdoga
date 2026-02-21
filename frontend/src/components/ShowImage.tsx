@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 
+type imageType = {
+  id: number;
+  rent_id: number;
+  base64: string;
+};
+
 export default function ShowImage() {
-  const [kepek, setKepek] = useState([]);
+  const [kepek, setKepek] = useState<imageType[]>([]);
 
   async function loadImage() {
     const resp = await fetch("http://localhost:8000/api/images");
@@ -17,9 +23,9 @@ export default function ShowImage() {
   return (
     <div>
       Random kéP!!!!
-      {kepek && kepek.length > 0 && (
-        <img src={kepek[0].base64} alt="Embedded Logo" />
-      )}
+      {kepek.map((kep, index) => {
+        return <img src={kep.base64} key={kep.rent_id} alt="Embedded Logo" />;
+      })}
     </div>
   );
 }
