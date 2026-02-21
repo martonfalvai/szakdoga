@@ -6,16 +6,7 @@ const Footer: React.FC = () => {
   const orbRef = useRef<HTMLDivElement>(null);
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (orbRef.current) {
-        orbRef.current.style.left = `${e.clientX}px`;
-        orbRef.current.style.top = `${e.clientY}px`;
-      }
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   const footerLinks = [
     { label: "Adatvédelmi nyilatkozat", to: "/privacy" },
@@ -24,13 +15,9 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden">
+    <footer className=" bg-[#f2c597d9] text-white overflow-hidden">
       {/* Animated background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl animate-float1"></div>
-        <div className="absolute top-40 right-20 w-40 h-40 bg-purple-500 rounded-full filter blur-3xl animate-float2"></div>
-        <div className="absolute bottom-10 left-1/2 w-48 h-48 bg-cyan-500 rounded-full filter blur-3xl animate-float3"></div>
-      </div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20"></div>
 
       {/* Main content */}
       <div className="relative max-w-7xl mx-auto px-6 py-16 sm:py-20 lg:px-8">
@@ -45,7 +32,7 @@ const Footer: React.FC = () => {
                 MAPUMA
               </h2>
             </div>
-            <p className="text-gray-300 mb-6">
+            <p className="text-[#5c4033] mb-6">
               Találd meg álmdaid lakásást velünk!
             </p>
 
@@ -70,20 +57,22 @@ const Footer: React.FC = () => {
 
           {/* Quick links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Gyors linkek</h3>
+            <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
+              Gyors linkek
+            </h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="/"
-                  className="text-gray-300 hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
                 >
-                  Home
+                  Főoldal
                 </Link>
               </li>
               <li>
                 <Link
                   to="/apartments"
-                  className="text-gray-300 hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
                 >
                   Ingatlanok
                 </Link>
@@ -91,7 +80,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-gray-300 hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
                 >
                   Rólunk
                 </Link>
@@ -99,7 +88,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-gray-300 hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
                 >
                   Kapcsolat
                 </Link>
@@ -109,7 +98,9 @@ const Footer: React.FC = () => {
 
           {/* Contact info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Lépj velünk kapcsolatba</h3>
+            <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
+              Lépj velünk kapcsolatba
+            </h3>
             <ul className="space-y-4">
               <li className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
@@ -130,10 +121,10 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-gray-300">Email</p>
+                  <p className="text-sm text-[#5c4033]">Email</p>
                   <a
                     href="mailto:manueljosedala@hotmail.com"
-                    className="text-white hover:text-blue-400 transition"
+                    className="text-[#5c4033] hover:text-[#c3846a] transition"
                   >
                     info@mapuma.hu
                   </a>
@@ -141,7 +132,10 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse" style={{animationDelay: "0.2s"}}>
+                  <div
+                    className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse"
+                    style={{ animationDelay: "0.2s" }}
+                  >
                     <svg
                       className="w-4 h-4 text-blue-400"
                       fill="none"
@@ -158,10 +152,10 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-gray-300">Ügyfélszolgálat</p>
+                  <p className="text-sm text-[#5c4033]">Ügyfélszolgálat</p>
                   <a
                     href="tel:+244941540352"
-                    className="text-white hover:text-blue-400 transition"
+                    className="text-[#5c4033] hover:text-[#c3846a] transition"
                   >
                     +12 3 456 7890
                   </a>
@@ -172,10 +166,10 @@ const Footer: React.FC = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Stay Updated</h3>
-            <p className="text-gray-300 mb-4">
-              Iratkozz fel hírlevelünkre!
-            </p>
+            <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
+              Légy Naprakész
+            </h3>
+            <p className="text-[#5c4033] mb-4">Iratkozz fel hírlevelünkre!</p>
             <form className="mt-4">
               <div className="relative">
                 <input
@@ -208,28 +202,31 @@ const Footer: React.FC = () => {
 
         {/* Bottom section */}
         <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
+          <p className="text-[#5c4033] text-sm mb-4 md:mb-0">
             &copy; {year} MAPUMA. Minden jog fenntartva.
           </p>
           <div className="flex space-x-6">
-            <Link to="/privacy" className="text-gray-400 hover:text-white transition">
+            <Link
+              to="/privacy"
+              className="text-[#5c4033] hover:text-white transition"
+            >
               Adatvédelmi nyilatkozat
             </Link>
-            <Link to="/terms" className="text-gray-400 hover:text-white transition">
+            <Link
+              to="/terms"
+              className="text-[#5c4033] hover:text-white transition"
+            >
               Felhasználási feltételek
             </Link>
-            <Link to="/cookies" className="text-gray-400 hover:text-white transition">
+            <Link
+              to="/cookies"
+              className="text-[#5c4033] hover:text-white transition"
+            >
               Cookiek
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Floating orb */}
-      <div
-        ref={orbRef}
-        className="orb absolute w-64 h-64 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 filter blur-3xl pointer-events-none"
-      ></div>
     </footer>
   );
 };
