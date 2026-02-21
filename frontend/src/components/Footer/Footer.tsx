@@ -39,14 +39,14 @@ const Footer: React.FC = () => {
           <div className="group">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
-                <span className="text-xl font-bold">MD</span>
+                <span className="text-xl font-bold">M</span>
               </div>
               <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
                 MAPUMA
               </h2>
             </div>
             <p className="text-gray-300 mb-6">
-              Innovating digital experiences one line of code at a time.
+              Találd meg álmdaid lakásást velünk!
             </p>
 
             {/* Social icons */}
@@ -174,7 +174,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Stay Updated</h3>
             <p className="text-gray-300 mb-4">
-              Subscribe to my newsletter for the latest updates.
+              Iratkozz fel hírlevelünkre!
             </p>
             <form className="mt-4">
               <div className="relative">
@@ -213,13 +213,13 @@ const Footer: React.FC = () => {
           </p>
           <div className="flex space-x-6">
             <Link to="/privacy" className="text-gray-400 hover:text-white transition">
-              Privacy Policy
+              Adatvédelmi nyilatkozat
             </Link>
             <Link to="/terms" className="text-gray-400 hover:text-white transition">
-              Terms of Service
+              Felhasználási feltételek
             </Link>
             <Link to="/cookies" className="text-gray-400 hover:text-white transition">
-              Cookies
+              Cookiek
             </Link>
           </div>
         </div>
