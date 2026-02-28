@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\RentController;
 use App\Http\Controllers\RentImageController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -21,6 +22,8 @@ Route::middleware(['auth:sanctum'])
     });
 
 Route::get('/images', [RentImageController::class, 'index']);
+Route::get('/rents', [RentController::class, 'mainPageRents']);
+
 
 
 Route::middleware(['auth:sanctum', Admin::class])

@@ -9,6 +9,8 @@ class RentController extends Controller
 {
     public function index()
     {
+
+
         return response()->json(Rent::all());
     }
 
@@ -38,7 +40,17 @@ class RentController extends Controller
 
     public function show(Rent $rent)
     {
-        return response()->json($rent);
+        $filtered = Rent::select([
+            'id',
+            'title',
+            'highlighted',
+            'price',
+            'currency',
+            'city',
+            'available_from'
+        ])->find($rent->id);
+
+        return response()->json($filtered);
     }
 
     public function update(Request $request, Rent $rent)
@@ -70,5 +82,20 @@ class RentController extends Controller
         $rent->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function mainPageRents()
+    {
+        $rents = Rent::select([
+            'id',
+            'title',
+            'highlighted',
+            'price',
+            'currency',
+            'city',
+            'available_from'
+        ])->get();
+
+        return response()->json($rents);
     }
 }
