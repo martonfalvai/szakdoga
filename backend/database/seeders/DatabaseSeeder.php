@@ -2,24 +2,53 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // --- Felhasználók ---
+        // role: 0 = admin, 1 = felhasználó
+        DB::table('users')->insert([
+            [
+                'name'     => 'Kovács János',
+                'email'    => 'kovacs.janos@example.com',
+                'role'     => 0,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'     => 'Nagy Béla',
+                'email'    => 'nagy.bela@example.com',
+                'role'     => 1,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'     => 'Szabó Anna',
+                'email'    => 'szabo.anna@example.com',
+                'role'     => 1,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // --- Referencia seeders (helyes sorrendben a FK-k miatt) ---
+        $this->call([
+            CountySeeder::class,
+            CitySeeder::class,
+            RentTypeSeeder::class,
+            UtilityOptionSeeder::class,
+            RentSeeder::class,
+            UtilitySeeder::class,
+            RentingSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

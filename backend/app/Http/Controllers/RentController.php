@@ -2,49 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRentRequest;
-use App\Http\Requests\UpdateRentRequest;
 use App\Models\Rent;
+use Illuminate\Http\Request;
 
 class RentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Rent::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRentRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'rent_type'      => 'required|integer|exists:rent_types,id',
+            'title'          => 'required|string|max:255',
+            'description'    => 'required|string',
+            'price'          => 'required|numeric',
+            'currency'       => 'required|string|max:10',
+            'county'         => 'required|integer|exists:counties,id',
+            'city'           => 'required|integer|exists:cities,id',
+            'address'        => 'required|string|max:255',
+            'area'           => 'required|numeric',
+            'bedrooms'       => 'required|integer',
+            'bathrooms'      => 'required|integer',
+            'status'         => 'required|string|in:available,rented,inactive',
+            'available_from' => 'required|date',
+            'highlighted'    => 'nullable|date',
+        ]);
+
+        $rent = Rent::create($validated);
+
+        return response()->json($rent, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Rent $rent)
     {
-        //
+        return response()->json($rent);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRentRequest $request, Rent $rent)
+    public function update(Request $request, Rent $rent)
     {
-        //
+        $validated = $request->validate([
+            'rent_type'      => 'sometimes|integer|exists:rent_types,id',
+            'title'          => 'sometimes|string|max:255',
+            'description'    => 'sometimes|string',
+            'price'          => 'sometimes|numeric',
+            'currency'       => 'sometimes|string|max:10',
+            'county'         => 'sometimes|integer|exists:counties,id',
+            'city'           => 'sometimes|integer|exists:cities,id',
+            'address'        => 'sometimes|string|max:255',
+            'area'           => 'sometimes|numeric',
+            'bedrooms'       => 'sometimes|integer',
+            'bathrooms'      => 'sometimes|integer',
+            'status'         => 'sometimes|string|in:available,rented,inactive',
+            'available_from' => 'sometimes|date',
+            'highlighted'    => 'nullable|date',
+        ]);
+
+        $rent->update($validated);
+
+        return response()->json($rent);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Rent $rent)
     {
-        //
+        $rent->delete();
+
+        return response()->json(null, 204);
     }
 }

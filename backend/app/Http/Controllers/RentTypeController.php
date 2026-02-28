@@ -2,49 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRent_typeRequest;
-use App\Http\Requests\UpdateRent_typeRequest;
 use App\Models\Rent_type;
+use Illuminate\Http\Request;
 
 class RentTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Rent_type::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRent_typeRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $rentType = Rent_type::create($validated);
+
+        return response()->json($rentType, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Rent_type $rent_type)
     {
-        //
+        return response()->json($rent_type);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRent_typeRequest $request, Rent_type $rent_type)
+    public function update(Request $request, Rent_type $rent_type)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $rent_type->update($validated);
+
+        return response()->json($rent_type);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Rent_type $rent_type)
     {
-        //
+        $rent_type->delete();
+
+        return response()->json(null, 204);
     }
 }

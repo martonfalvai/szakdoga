@@ -2,49 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRentingRequest;
-use App\Http\Requests\UpdateRentingRequest;
 use App\Models\Renting;
+use Illuminate\Http\Request;
 
 class RentingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Renting::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRentingRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'rents_id'     => 'required|integer|exists:rents,id',
+            'renter'       => 'required|integer|exists:users,id',
+            'owner'        => 'required|integer|exists:users,id',
+            'price'        => 'required|numeric',
+            'rented_from'  => 'required|date',
+            'rented_until' => 'required|date|after:rented_from',
+        ]);
+
+        $renting = Renting::create($validated);
+
+        return response()->json($renting, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Renting $renting)
     {
-        //
+        return response()->json($renting);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRentingRequest $request, Renting $renting)
+    public function update(Request $request, Renting $renting)
     {
-        //
+        $validated = $request->validate([
+            'price'        => 'sometimes|numeric',
+            'rented_from'  => 'sometimes|date',
+            'rented_until' => 'sometimes|date|after:rented_from',
+        ]);
+
+        $renting->update($validated);
+
+        return response()->json($renting);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Renting $renting)
     {
-        //
+        $renting->delete();
+
+        return response()->json(null, 204);
     }
 }

@@ -2,49 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCountyRequest;
-use App\Http\Requests\UpdateCountyRequest;
 use App\Models\County;
+use Illuminate\Http\Request;
 
 class CountyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(County::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCountyRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $county = County::create($validated);
+
+        return response()->json($county, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(County $county)
     {
-        //
+        return response()->json($county);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCountyRequest $request, County $county)
+    public function update(Request $request, County $county)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $county->update($validated);
+
+        return response()->json($county);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(County $county)
     {
-        //
+        $county->delete();
+
+        return response()->json(null, 204);
     }
 }

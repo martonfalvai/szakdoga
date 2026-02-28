@@ -2,49 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Review;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Review::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReviewRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'id'             => 'required|integer|exists:rentings,id|unique:reviews,id',
+            'rating'         => 'required|integer|min:1|max:5',
+            'renter_comment' => 'required|string|max:255',
+            'owner_comment'  => 'required|string|max:255',
+        ]);
+
+        $review = Review::create($validated);
+
+        return response()->json($review, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Review $review)
     {
-        //
+        return response()->json($review);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(Request $request, Review $review)
     {
-        //
+        $validated = $request->validate([
+            'rating'         => 'sometimes|integer|min:1|max:5',
+            'renter_comment' => 'sometimes|string|max:255',
+            'owner_comment'  => 'sometimes|string|max:255',
+        ]);
+
+        $review->update($validated);
+
+        return response()->json($review);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+
+        return response()->json(null, 204);
     }
 }

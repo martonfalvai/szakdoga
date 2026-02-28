@@ -2,49 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUtilityRequest;
-use App\Http\Requests\UpdateUtilityRequest;
 use App\Models\Utility;
+use Illuminate\Http\Request;
 
 class UtilityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Utility::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUtilityRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'rent_id'           => 'required|integer|exists:rents,id',
+            'utility_option_id' => 'required|integer|exists:utility_options,id',
+        ]);
+
+        $utility = Utility::create($validated);
+
+        return response()->json($utility, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Utility $utility)
     {
-        //
+        return response()->json($utility);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUtilityRequest $request, Utility $utility)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Utility $utility)
     {
-        //
+        $utility->delete();
+
+        return response()->json(null, 204);
     }
 }
