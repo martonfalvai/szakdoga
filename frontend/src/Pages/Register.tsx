@@ -33,7 +33,17 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-white px-4 py-12">
+    <div className="relative flex min-h-screen items-center justify-center bg-white px-4 py-12 overflow-y-auto">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -left-20 w-[600px] h-64 bg-[#edc59d]/30 rounded-[100%]" />
+        <div className="absolute -top-20 left-40 w-[500px] h-56 bg-[#d2a995]/25 rounded-[100%]" />
+        <div className="absolute -top-24 right-0 w-[400px] h-60 bg-[#c49080]/20 rounded-[100%]" />
+        <div className="absolute -bottom-32 -left-20 w-[600px] h-64 bg-[#edc59d]/30 rounded-[100%]" />
+        <div className="absolute -bottom-20 left-60 w-[500px] h-56 bg-[#d2a995]/25 rounded-[100%]" />
+        <div className="absolute -bottom-24 -right-10 w-[450px] h-60 bg-[#c49080]/20 rounded-[100%]" />
+        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-[#edc59d]/15 rounded-full blur-2xl" />
+        <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#d2a995]/15 rounded-full blur-2xl" />
+      </div>
       <div className="w-full max-w-md z-10">
         <div className="text-center mb-8">
           <h2 className="mt-6 text-2xl font-bold text-[#5c4033]">

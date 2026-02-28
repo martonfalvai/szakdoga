@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./Footer.module.css"; // opcionális, ha Tailwind helyett CSS modult használsz
+import styles from "./Footer.module.css"; // opcionális
 
 const Footer: React.FC = () => {
   const orbRef = useRef<HTMLDivElement>(null);
@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative bg-[#f2c597d9] text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-r from-[#edc59dd9] to-[#e7b98cd9] text-white overflow-hidden">
       {/* Animated background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20"></div>
 
@@ -23,10 +23,10 @@ const Footer: React.FC = () => {
           {/* Logo section */}
           <div className="group">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#5b3f23d9] to-[#d38a40d9] rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
                 <span className="text-xl font-bold">M</span>
               </div>
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#5b3f23d9] to-[#d38a40d9]">
                 MAPUMA
               </h2>
             </div>
@@ -36,19 +36,8 @@ const Footer: React.FC = () => {
 
             {/* Social icons */}
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
-              >
-                {/* GitHub SVG */}
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 ..." />
-                </svg>
-              </a>
+              
+              
               {/* Add more social icons here */}
             </div>
           </div>
@@ -102,9 +91,9 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse">
+                  <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center animate-pulse">
                     <svg
-                      className="w-4 h-4 text-blue-400"
+                      className="w-4 h-4 text-[#6a3918]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -122,7 +111,7 @@ const Footer: React.FC = () => {
                   <p className="text-sm text-[#5c4033]">Email</p>
                   <a
                     href="mailto:manueljosedala@hotmail.com"
-                    className="text-[#5c4033] hover:text-[#c3846a] transition"
+                    className="text-[#5c4033] hover:text-[#f8f8f8] transition"
                   >
                     info@mapuma.hu
                   </a>
@@ -131,11 +120,11 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
                   <div
-                    className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse"
+                    className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center animate-pulse"
                     style={{ animationDelay: "0.2s" }}
                   >
                     <svg
-                      className="w-4 h-4 text-blue-400"
+                      className="w-4 h-4 text-[#6a3918]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -153,7 +142,7 @@ const Footer: React.FC = () => {
                   <p className="text-sm text-[#5c4033]">Ügyfélszolgálat</p>
                   <a
                     href="tel:+244941540352"
-                    className="text-[#5c4033] hover:text-[#c3846a] transition"
+                    className="text-[#5c4033] hover:text-[#f8f8f8] transition"
                   >
                     +12 3 456 7890
                   </a>
