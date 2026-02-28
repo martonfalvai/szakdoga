@@ -1,19 +1,21 @@
 import React, { useState } from "react";
+import { useAuth } from "../hooks/authProvider";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const { register } = useAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [terms, setTerms] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Egyszerű validáció
-    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       alert("Minden mező kitöltése kötelező!");
       return;
     }
@@ -28,8 +30,13 @@ const Register: React.FC = () => {
       return;
     }
 
-    console.log("Registration successful:", { firstName, lastName, email, phone });
-    alert("Sikeres regisztráció!");
+    try {
+      await register(name, email, password, confirmPassword);
+      alert("Sikeres regisztráció!");
+      navigate("/");
+    } catch {
+      alert("Sikertelen regisztráció!");
+    }
   };
 
   return (
@@ -54,39 +61,33 @@ const Register: React.FC = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-[#f9f5f1] p-6 rounded-2xl shadow-md">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-[#f9f5f1] p-6 rounded-2xl shadow-md"
+        >
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-[#5c4033] mb-1">
-              Keresztnév
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-[#5c4033] mb-1"
+            >
+              Teljes név
             </label>
             <input
               type="text"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Add meg a keresztneved"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Add meg a teljes neved"
               className="w-full px-4 py-2 rounded-md bg-[#d2a995] text-[#5c4033] placeholder-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-[#5c4033] mb-1">
-              Vezetéknév
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Add meg a vezetékneved"
-              className="w-full px-4 py-2 rounded-md bg-[#d2a995] text-[#5c4033] placeholder-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#5c4033] mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#5c4033] mb-1"
+            >
               Email
             </label>
             <input
@@ -101,22 +102,10 @@ const Register: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-[#5c4033] mb-1">
-              Telefonszám
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Add meg a telefonszámod"
-              className="w-full px-4 py-2 rounded-md bg-[#d2a995] text-[#5c4033] placeholder-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#5c4033] mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[#5c4033] mb-1"
+            >
               Jelszó
             </label>
             <input
@@ -131,7 +120,10 @@ const Register: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#5c4033] mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-[#5c4033] mb-1"
+            >
               Jelszó megerősítése
             </label>
             <input
@@ -155,12 +147,16 @@ const Register: React.FC = () => {
               required
             />
             <label htmlFor="terms" className="ml-2 text-sm text-[#5c4033]">
-              Elfogadom a <a href="#" className="underline">Szabályzatot</a>
+              Elfogadom a{" "}
+              <a href="#" className="underline">
+                Szabályzatot
+              </a>
             </label>
           </div>
 
           <button
             type="submit"
+            // disabled={!terms}
             className="w-full bg-[#5c4033] text-white py-2 rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
           >
             Regisztráció

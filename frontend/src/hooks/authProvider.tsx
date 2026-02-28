@@ -1,11 +1,5 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
-import axios from "axios";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "../api/axiosConfig";
 
 interface User {
   id: number;
@@ -20,6 +14,12 @@ interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+  ) => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post("http://127.0.0.1:8000/api/login", {
+    const response = await axios.post("/api/login", {
       email,
       password,
     });
@@ -60,11 +60,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     if (!token) return;
 
-    const response = await axios.post("http://127.0.0.1:8000/api/logout");
+    const response = await axios.post("/api/logout");
 
     const { message } = await response.data;
 
-    if (message == "Logout successful" || response.status == 200) {
+    if (message === "Logout successful" || response.status == 200) {
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("user");
       delete axios.defaults.headers.common["Authorization"];
@@ -73,12 +73,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const value = useMemo(
-    () => ({ user, token, login, logout, isAuthenticated: !!token }),
-    [user, token],
-  );
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+  ) => {
+    const response = await axios.post("/api/register", {
+      name,
+      email,
+      password,
+      password_confirmation,
+    });
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    const { access_token, user } = response.data;
+
+    sessionStorage.setItem("access_token", access_token);
+    sessionStorage.setItem("user", JSON.stringify(user));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+
+    setToken(access_token);
+    setUser(user);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ user, token, login, register, logout, isAuthenticated: !!token }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
