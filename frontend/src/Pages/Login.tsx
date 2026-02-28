@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-gradient-to-r from-[#ffffffd9] to-[#f5e9dfd9] px-4 py-12 py-12 overflow-y-auto">
+    <div className="relative flex min-h-screen items-center justify-center bg-gradient-to-r from-[#ffffffd9] to-[#ffffffd9] px-4 py-12 overflow-y-auto">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -left-20 w-[600px] h-64 bg-[#edc59d]/30 rounded-[100%]" />
         <div className="absolute -top-20 left-40 w-[500px] h-56 bg-[#d2a995]/25 rounded-[100%]" />
