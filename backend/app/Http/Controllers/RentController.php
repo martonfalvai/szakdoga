@@ -9,8 +9,6 @@ class RentController extends Controller
 {
     public function index()
     {
-
-
         return response()->json(Rent::all());
     }
 
@@ -41,14 +39,16 @@ class RentController extends Controller
     public function show(Rent $rent)
     {
         $filtered = Rent::select([
-            'id',
-            'title',
-            'highlighted',
-            'price',
-            'currency',
-            'city',
-            'available_from'
-        ])->find($rent->id);
+            'rents.id',
+            'rents.title',
+            'rents.highlighted',
+            'rents.price',
+            'rents.currency',
+            'cities.name as city',
+            'rents.available_from'
+        ])
+            ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->find($rent->id);
 
         return response()->json($filtered);
     }
@@ -86,15 +86,32 @@ class RentController extends Controller
 
     public function mainPageRents()
     {
+
         $rents = Rent::select([
-            'id',
-            'title',
-            'highlighted',
-            'price',
-            'currency',
-            'city',
-            'available_from'
-        ])->get();
+            'rents.id',
+            'rents.title',
+            'rents.highlighted',
+            'rents.price',
+            'rents.currency',
+            'cities.name as city',
+            'rents.available_from',
+            'rent_images.base64'
+        ])
+            ->leftJoin('rent_images', 'rents.defaultimage', '=', 'rent_images.id')
+            ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->get()
+            ->map(function ($rent) {
+                return [
+                    'id' => $rent->id,
+                    'title' => $rent->title,
+                    'highlighted' => $rent->highlighted,
+                    'price' => $rent->price,
+                    'currency' => $rent->currency,
+                    'city' => $rent->city,
+                    'available_from' => $rent->available_from,
+                    'defaultimage' => $rent->base64
+                ];
+            });
 
         return response()->json($rents);
     }
