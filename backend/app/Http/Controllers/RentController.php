@@ -38,7 +38,19 @@ class RentController extends Controller
 
     public function show(Rent $rent)
     {
-        return response()->json($rent);
+        $filtered = Rent::select([
+            'rents.id',
+            'rents.title',
+            'rents.highlighted',
+            'rents.price',
+            'rents.currency',
+            'cities.name as city',
+            'rents.available_from'
+        ])
+            ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->find($rent->id);
+
+        return response()->json($filtered);
     }
 
     public function update(Request $request, Rent $rent)
@@ -70,5 +82,37 @@ class RentController extends Controller
         $rent->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function mainPageRents()
+    {
+
+        $rents = Rent::select([
+            'rents.id',
+            'rents.title',
+            'rents.highlighted',
+            'rents.price',
+            'rents.currency',
+            'cities.name as city',
+            'rents.available_from',
+            'rent_images.base64'
+        ])
+            ->leftJoin('rent_images', 'rents.defaultimage', '=', 'rent_images.id')
+            ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->get()
+            ->map(function ($rent) {
+                return [
+                    'id' => $rent->id,
+                    'title' => $rent->title,
+                    'highlighted' => $rent->highlighted,
+                    'price' => $rent->price,
+                    'currency' => $rent->currency,
+                    'city' => $rent->city,
+                    'available_from' => $rent->available_from,
+                    'defaultimage' => $rent->base64
+                ];
+            });
+
+        return response()->json($rents);
     }
 }

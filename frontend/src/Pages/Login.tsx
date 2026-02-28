@@ -1,13 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/authProvider";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("admin123");
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
-    alert(`Bejelentkezés: Email: ${email}, Jelszó: ${password}`);
+    setError(null);
+    try {
+      await login(email, password);
+      navigate("/admin");
+    } catch {
+      setError("Hibás email cím vagy jelszó.");
+    }
   };
 
   return (
@@ -22,6 +32,7 @@ const Login: React.FC = () => {
         <div className="absolute top-1/2 -left-40 w-80 h-80 bg-[#edc59d]/15 rounded-full blur-2xl" />
         <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#d2a995]/15 rounded-full blur-2xl" />
       </div>
+
       <div className="w-full max-w-md z-10">
         <div className="text-center mb-10">
           <h2 className="mt-6 text-2xl font-bold text-[#5c4033]">
@@ -80,13 +91,28 @@ const Login: React.FC = () => {
             />
           </div>
 
+          {!isAuthenticated && (
+            <button
+              type="submit"
+              className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
+            >
+              Bejelentkezés
+            </button>
+          )}
+        </form>
+
+        {isAuthenticated && (
           <button
-            type="submit"
+            onClick={logout}
             className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
           >
-            Bejelentkezés
+            LOGOUT
           </button>
-        </form>
+        )}
+
+        {error && (
+          <p className="mt-3 text-center text-sm text-red-600">{error}</p>
+        )}
 
         <p className="mt-6 text-center text-sm text-[#5c4033]">
           Még nem regisztráltál?{" "}
