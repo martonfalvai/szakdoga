@@ -1,10 +1,12 @@
 import React from "react";
 import styles from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
-import UserIcon from "../../Icons/UserIcon"; 
+import UserIcon from "../../Icons/UserIcon";
+import { useAuth } from "../../hooks/authProvider";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const navItems = [
     { name: "Ingatlanok", link: "/apartments" },
@@ -15,12 +17,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarContent}>
-        
-
-        <div
-          className={styles.logo}
-          onClick={() => navigate("/")}
-        >
+        <div className={styles.logo} onClick={() => navigate("/")}>
           LOGO
         </div>
 
@@ -36,18 +33,18 @@ const Navbar: React.FC = () => {
           ))}
         </div>
 
-        
         <div className={styles.rightMenu}>
-          <input 
-          type="text"
-          placeholder="Keresés..."
-          className={styles.searchInput}/>
+          <input
+            type="text"
+            placeholder="Keresés..."
+            className={styles.searchInput}
+          />
+          {user?.name}
           <UserIcon
             className={styles.icon}
             onClick={() => navigate("/login")}
           />
         </div>
-
       </div>
     </nav>
   );

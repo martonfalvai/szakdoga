@@ -1,58 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import ShowImage from "../components/ShowImage";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/authProvider";
 
 const Login: React.FC = () => {
+  const { login, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("admin123");
+  const [error, setError] = useState<string | null>(null);
 
-  // Axios interceptor beállítása az access token hozzáadásához
-  useEffect(() => {
-    const token = sessionStorage.getItem("access_token");
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    }
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    login();
+    setError(null);
+    try {
+      await login(email, password);
+      navigate("/admin");
+    } catch {
+      setError("Hibás email cím vagy jelszó.");
+    }
   };
-
-  async function login() {
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      // Mentsd el az access tokent
-      const { access_token } = response.data;
-      sessionStorage.setItem("access_token", access_token);
-
-      // Állítsd be az axios default header-t
-      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-
-      console.log("Login successful:", response.data);
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  }
-
-  async function getUser() {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/api/rents");
-      console.log("User data:", response.data);
-    } catch (error) {
-      console.error("Get user error:", error);
-    }
-  }
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-gradient-to-r from-[#ffffffd9] to-[#f5e9dfd9] px-4 py-12 py-12 overflow-y-auto">
@@ -124,21 +90,28 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
-          >
-            Bejelentkezés
-          </button>
+          {!isAuthenticated && (
+            <button
+              type="submit"
+              className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
+            >
+              Bejelentkezés
+            </button>
+          )}
         </form>
 
-        <button
-          type="submit"
-          onClick={getUser}
-          className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
-        >
-          GETUSER
-        </button>
+        {/* {isAuthenticated && (
+          <button
+            onClick={logout}
+            className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
+          >
+            LOGOUT
+          </button>
+        )} */}
+
+        {error && (
+          <p className="mt-3 text-center text-sm text-red-600">{error}</p>
+        )}
 
         <p className="mt-6 text-center text-sm text-[#5c4033]">
           Még nem regisztráltál?{" "}
@@ -149,8 +122,6 @@ const Login: React.FC = () => {
             Próbáld ki 14 napig ingyen!
           </a>
         </p>
-
-        <ShowImage />
       </div>
     </div>
   );
