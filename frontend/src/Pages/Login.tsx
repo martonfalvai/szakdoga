@@ -1,14 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ShowImage from "../components/ShowImage";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("admin123");
+
+  // Axios interceptor beállítása az access token hozzáadásához
+  useEffect(() => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
-    alert(`Bejelentkezés: Email: ${email}, Jelszó: ${password}`);
+    login();
   };
+
+  async function login() {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+
+      // Mentsd el az access tokent
+      const { access_token } = response.data;
+      sessionStorage.setItem("access_token", access_token);
+
+      // Állítsd be az axios default header-t
+      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+
+      console.log("Login successful:", response.data);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  }
+
+  async function getUser() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/rents");
+      console.log("User data:", response.data);
+    } catch (error) {
+      console.error("Get user error:", error);
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-white px-4 py-12">
@@ -83,6 +127,14 @@ const Login: React.FC = () => {
           </button>
         </form>
 
+        <button
+          type="submit"
+          onClick={getUser}
+          className="w-full py-2 rounded-md bg-[#5c4033] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#5c4033]"
+        >
+          GETUSER
+        </button>
+
         <p className="mt-6 text-center text-sm text-[#5c4033]">
           Még nem regisztráltál?{" "}
           <a
@@ -92,6 +144,8 @@ const Login: React.FC = () => {
             Próbáld ki 14 napig ingyen!
           </a>
         </p>
+
+        <ShowImage />
       </div>
     </div>
   );

@@ -9,9 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
+
         Schema::create('rents', function (Blueprint $table) {
+
             $table->id();
             $table->foreignId('rent_type')->constrained('rent_types');
             $table->string('title', 255);

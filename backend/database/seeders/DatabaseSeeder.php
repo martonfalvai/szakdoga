@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             RentTypeSeeder::class,
             UtilityOptionSeeder::class,
             RentSeeder::class,
+            RentImageSeeder::class,
             UtilitySeeder::class,
             RentingSeeder::class,
             ReviewSeeder::class,
