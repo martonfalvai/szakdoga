@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/authProvider";
 
 const Login: React.FC = () => {
-  const { login, logout, isAuthenticated } = useAuth();
+  const { login, logout, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("admin123");
@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     setError(null);
     try {
       await login(email, password);
-      navigate("/admin");
+      navigate("/");
     } catch {
       setError("Hibás email cím vagy jelszó.");
     }
