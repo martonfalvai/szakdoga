@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-r from-[#edc59dd9] to-[#e7b98cd9] text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-r from-[#f6dfc6d9] to-[#fddcbcd9] text-white overflow-hidden">
       {/* Animated background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20"></div>
 
@@ -36,8 +36,6 @@ const Footer: React.FC = () => {
 
             {/* Social icons */}
             <div className="flex space-x-4">
-              
-              
               {/* Add more social icons here */}
             </div>
           </div>
@@ -51,7 +49,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/"
-                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-[#8a5d2b] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   Főoldal
                 </Link>
@@ -59,7 +57,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/apartments"
-                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-[#8a5d2b] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   Ingatlanok
                 </Link>
@@ -67,7 +65,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-[#8a5d2b]relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   Rólunk
                 </Link>
@@ -75,7 +73,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-[#5c4033] hover:text-white hover:pl-2 transition-all duration-300 flex items-center"
+                  className="text-[#5c4033] hover:text-[#8a5d2b] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   Kapcsolat
                 </Link>
@@ -111,7 +109,7 @@ const Footer: React.FC = () => {
                   <p className="text-sm text-[#5c4033]">Email</p>
                   <a
                     href="mailto:manueljosedala@hotmail.com"
-                    className="text-[#5c4033] hover:text-[#f8f8f8] transition"
+                    className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     info@mapuma.hu
                   </a>
@@ -142,7 +140,7 @@ const Footer: React.FC = () => {
                   <p className="text-sm text-[#5c4033]">Ügyfélszolgálat</p>
                   <a
                     href="tel:+244941540352"
-                    className="text-[#5c4033] hover:text-[#f8f8f8] transition"
+                    className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     +12 3 456 7890
                   </a>
@@ -161,12 +159,12 @@ const Footer: React.FC = () => {
               <div className="relative">
                 <input
                   type="email"
-                  placeholder="Your email"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-white"
+                  placeholder="Add meg az email címed"
+                  className="w-full bg-gradient-to-r from-[#4a3a28] to-[#d8a776] border border-[#d2a995] rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#a57057] focus:border-transparent placeholder-[#f5ece7] text-[#ffffff]"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-1 transition"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#5c4033] hover:bg-[#a57057] text-white rounded-lg px-4 py-1 transition"
                 >
                   <svg
                     className="w-5 h-5"
@@ -195,19 +193,19 @@ const Footer: React.FC = () => {
           <div className="flex space-x-6">
             <Link
               to="/privacy"
-              className="text-[#5c4033] hover:text-white transition"
+              className="text-[#5c4033] hover:text-[#8a5d2b]  transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
             >
               Adatvédelmi nyilatkozat
             </Link>
             <Link
               to="/terms"
-              className="text-[#5c4033] hover:text-white transition"
+              className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
             >
               Felhasználási feltételek
             </Link>
             <Link
               to="/cookies"
-              className="text-[#5c4033] hover:text-white transition"
+              className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
             >
               Cookiek
             </Link>

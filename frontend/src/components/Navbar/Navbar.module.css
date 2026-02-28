@@ -5,7 +5,7 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   
-    background: linear-gradient(to right, #edc59dd9, #e7b98cd9);
+    background: linear-gradient(to right, #f6dfc6d9, #fddcbcd9);
     border-bottom: 1px solid rgba(120, 90, 60, 0.15);
   
     z-index: 1000;
