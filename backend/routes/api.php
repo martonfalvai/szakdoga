@@ -10,7 +10,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\Admin;
 
 Route::get('/images', [RentImageController::class, 'index']);
+Route::post('/upload', [UploadController::class, 'store']);
 Route::get('/rents', [RentController::class, 'mainPageRents']);
+Route::get('/rents/{id}', [RentController::class, 'show']);
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -22,7 +24,7 @@ Route::middleware(['auth:sanctum'])
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
-        Route::post('/upload', [UploadController::class, 'store']);
+        //Route::post('/upload', [UploadController::class, 'store']);
     });
 
 

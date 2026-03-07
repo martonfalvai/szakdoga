@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RentController extends Controller
 {
@@ -36,21 +37,48 @@ class RentController extends Controller
         return response()->json($rent, 201);
     }
 
-    public function show(Rent $rent)
+    public function show($id)
     {
-        $filtered = Rent::select([
-            'rents.id',
-            'rents.title',
-            'rents.highlighted',
-            'rents.price',
-            'rents.currency',
-            'cities.name as city',
-            'rents.available_from'
+        $rent = Rent::select([
+            'rents.*',
+            'cities.name as city_name',
+            'default_img.base64 as defaultimage'
         ])
             ->leftJoin('cities', 'rents.city', '=', 'cities.id')
-            ->find($rent->id);
+            ->leftJoin('rent_images as default_img', 'rents.defaultimage', '=', 'default_img.id')
+            ->where('rents.id', $id)
+            ->first();
 
-        return response()->json($filtered);
+        if (!$rent) {
+            return response()->json(['message' => 'Rent not found'], 404);
+        }
+
+        // Összes kép lekérése ehhez a rent-hez
+        $images = DB::table('rent_images')
+            ->select('id', 'base64')
+            ->where('rent_id', $id)
+            ->get();
+
+        // Response összeállítása
+        $response = [
+            'id' => $rent->id,
+            'title' => $rent->title,
+            'description' => $rent->description,
+            'price' => $rent->price,
+            'currency' => $rent->currency,
+            'city' => $rent->city_name,
+            'address' => $rent->address,
+            'area' => $rent->area,
+            'bedrooms' => $rent->bedrooms,
+            'bathrooms' => $rent->bathrooms,
+            'status' => $rent->status,
+            'available_from' => $rent->available_from,
+            'highlighted' => $rent->highlighted,
+            'defaultimage' => $rent->defaultimage,
+            'images' => $images
+        ];
+
+        return response()->json($response);
     }
 
     public function update(Request $request, Rent $rent)
@@ -97,8 +125,21 @@ class RentController extends Controller
             'rents.available_from',
             'rent_images.base64'
         ])
+            ->selectRaw('COALESCE(SUM(reviews.rating), 0) as rating')
             ->leftJoin('rent_images', 'rents.defaultimage', '=', 'rent_images.id')
             ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->leftJoin('rentings', 'rents.id', '=', 'rentings.rents_id')
+            ->leftJoin('reviews', 'rentings.id', '=', 'reviews.id')
+            ->groupBy([
+                'rents.id',
+                'rents.title',
+                'rents.highlighted',
+                'rents.price',
+                'rents.currency',
+                'cities.name',
+                'rents.available_from',
+                'rent_images.base64'
+            ])
             ->get()
             ->map(function ($rent) {
                 return [
@@ -109,7 +150,8 @@ class RentController extends Controller
                     'currency' => $rent->currency,
                     'city' => $rent->city,
                     'available_from' => $rent->available_from,
-                    'defaultimage' => $rent->base64
+                    'defaultimage' => $rent->base64,
+                    'rating' => (int) $rent->rating
                 ];
             });
 
