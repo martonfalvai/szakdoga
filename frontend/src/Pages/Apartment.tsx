@@ -1,9 +1,12 @@
+import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axiosConfig";
 import { useEffect } from "react";
 
+
 const Apartment = () => {
   const { apartmentId } = useParams();
+
 
   const getApatmentById = async () => {
     try {
