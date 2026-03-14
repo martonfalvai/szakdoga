@@ -9,8 +9,8 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: szakdolgozat
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -29,10 +29,10 @@ services:
     ports:
       - "8080:80"
     environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
     depends_on:
       mysql:
         condition: service_healthy
@@ -50,7 +50,7 @@ services:
       - "8000:80"
     volumes:
       - ./backend:/var/www/html
-      - /var/www/html/vendor  # vendor ne legyen felülírva
+      - /var/www/html/vendor # vendor ne legyen felülírva
     depends_on:
       mysql:
         condition: service_healthy
@@ -58,13 +58,13 @@ services:
       bash -c "php artisan migrate:fresh --seed --force &&
                /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"
     environment:
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: szakdolgozat
-      DB_USERNAME: root
-      DB_PASSWORD: root
-      APP_URL: http://localhost:8000
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      APP_URL: ${APP_URL}
     networks:
       - app-network
 
@@ -79,10 +79,10 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
-      - /app/node_modules  # node_modules ne legyen felülírva
+      - /app/node_modules # node_modules ne legyen felülírva
     environment:
-      - CHOKIDAR_USEPOLLING=true  # hot reload Dockerben
-      - REACT_APP_API_URL=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
     networks:
       - app-network
 
