@@ -18,6 +18,7 @@ const Routing = () => {
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="admin" element={<Admin />} />
+      <Route path="*" element={<div>404 - Az oldal nem található</div>} />
     </Routes>
   );
 };
