@@ -59,6 +59,32 @@ class RentController extends Controller
             ->where('rent_id', $id)
             ->get();
 
+        // Utilities lekérése
+        $utilities = DB::table('utilities')
+            ->select('utilities.id', 'utility_options.name')
+            ->join('utility_options', 'utilities.utility_option_id', '=', 'utility_options.id')
+            ->where('utilities.rent_id', $id)
+            ->get();
+
+        // Reviews lekérése
+        $reviews = DB::table('reviews')
+            ->select(
+                'reviews.rating',
+                'reviews.renter_comment',
+                'reviews.owner_comment',
+                'reviews.created_at',
+                'renter.name as renter_name',
+                'owner.name as owner_name'
+            )
+            ->join('rentings', 'reviews.id', '=', 'rentings.id')
+            ->join('users as renter', 'rentings.renter', '=', 'renter.id')
+            ->join('users as owner', 'rentings.owner', '=', 'owner.id')
+            ->where('rentings.rents_id', $id)
+            ->get();
+
+        // Átlagos rating számítása
+        $averageRating = $reviews->avg('rating') ?? 0;
+
         // Response összeállítása
         $response = [
             'id' => $rent->id,
@@ -75,7 +101,11 @@ class RentController extends Controller
             'available_from' => $rent->available_from,
             'highlighted' => $rent->highlighted,
             'defaultimage' => $rent->defaultimage,
-            'images' => $images
+            'images' => $images,
+            'utilities' => $utilities,
+            'reviews' => $reviews,
+            'average_rating' => $averageRating
+
         ];
 
         return response()->json($response);

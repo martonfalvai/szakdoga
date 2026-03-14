@@ -40,7 +40,8 @@ const ApartmentGallery = ({ images, title }: Props) => {
           <img
             src={images[selected]?.base64}
             alt={title}
-            className="w-full object-cover max-h-[420px]"
+            className="w-full object-cover max-h-[420px] cursor-zoom-in"
+            onClick={() => setLightbox(true)}
           />
           {/* nagyítás gomb */}
           <button

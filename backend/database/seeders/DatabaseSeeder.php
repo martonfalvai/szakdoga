@@ -37,6 +37,30 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name'     => 'Tóth István',
+                'email'    => 'toth.istvan@example.com',
+                'role'     => 1,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'     => 'Kiss Mária',
+                'email'    => 'kiss.maria@example.com',
+                'role'     => 1,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'     => 'Varga László',
+                'email'    => 'varga.laszlo@example.com',
+                'role'     => 0,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // --- Referencia seeders (helyes sorrendben a FK-k miatt) ---
