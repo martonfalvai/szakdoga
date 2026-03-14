@@ -16,7 +16,7 @@ export const ApartmentCard = ({ apartments }: { apartments: Apartment[] }) => {
       <h3>{apt.title}</h3>
       <div className="flex gap-3 justify-between">
         <div className="flex gap-1 items-center justify-center">
-          <StarReviews apartment={apt} />
+          <StarReviews rating={apt.rating} />
         </div>
         <p>{getPrice(apt.price, apt.currency)}</p>
       </div>

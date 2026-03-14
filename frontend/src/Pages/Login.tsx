@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/authProvider";
+import toast from "react-hot-toast";
 
 const Login: React.FC = () => {
   const { login, logout, isAuthenticated } = useAuth();
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
     setError(null);
     try {
       await login(email, password);
+      toast.success("Sikeres bejelentkezés");
       navigate("/");
     } catch {
       setError("Hibás email cím vagy jelszó.");

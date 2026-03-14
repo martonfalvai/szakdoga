@@ -7,6 +7,7 @@ import Admin from "./Pages/Admin";
 import { AuthProvider } from "./hooks/authProvider";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import toast, { Toaster } from "react-hot-toast";
 
 const Routing = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => (
       <Routing />
       <Footer />
     </AuthProvider>
+    <Toaster position="top-right" />
   </BrowserRouter>
 );
 
