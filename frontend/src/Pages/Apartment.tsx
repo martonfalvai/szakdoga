@@ -170,7 +170,6 @@ const Apartment = () => {
         )}
       </div>
 
-      {/* értékelések */}
       <ReviewList
         reviews={apartment.reviews}
         averageRating={apartment.average_rating}
