@@ -142,10 +142,9 @@ class RentController extends Controller
         return response()->json(null, 204);
     }
 
-    public function mainPageRents()
+    public function mainPageRents(Request $request)
     {
-
-        $rents = Rent::select([
+        $query = Rent::select([
             'rents.id',
             'rents.title',
             'rents.highlighted',
@@ -153,23 +152,73 @@ class RentController extends Controller
             'rents.currency',
             'cities.name as city',
             'rents.available_from',
-            'rent_images.base64'
+            'rent_images.base64',
+            'rents.bedrooms',
+            'rents.bathrooms',
+            'rents.area',
+            'rents.status',
         ])
-            ->selectRaw('COALESCE(SUM(reviews.rating), 0) as rating')
+            ->selectRaw('COALESCE(AVG(reviews.rating), 0) as rating')
             ->leftJoin('rent_images', 'rents.defaultimage', '=', 'rent_images.id')
             ->leftJoin('cities', 'rents.city', '=', 'cities.id')
+            ->leftJoin('counties', 'rents.county', '=', 'counties.id')
             ->leftJoin('rentings', 'rents.id', '=', 'rentings.rents_id')
-            ->leftJoin('reviews', 'rentings.id', '=', 'reviews.id')
-            ->groupBy([
-                'rents.id',
-                'rents.title',
-                'rents.highlighted',
-                'rents.price',
-                'rents.currency',
-                'cities.name',
-                'rents.available_from',
-                'rent_images.base64'
-            ])
+            ->leftJoin('reviews', 'rentings.id', '=', 'reviews.id');
+
+        if ($request->filled('city')) {
+            $query->where('cities.name', 'like', '%' . $request->city . '%');
+        }
+
+        if ($request->filled('county')) {
+            $query->where('counties.name', $request->county);
+        }
+
+        if ($request->filled('price_min')) {
+            $query->where('rents.price', '>=', $request->price_min);
+        }
+
+        if ($request->filled('price_max')) {
+            $query->where('rents.price', '<=', $request->price_max);
+        }
+
+        if ($request->filled('area_min')) {
+            $query->where('rents.area', '>=', $request->area_min);
+        }
+
+        if ($request->filled('area_max')) {
+            $query->where('rents.area', '<=', $request->area_max);
+        }
+
+        if ($request->filled('bedrooms')) {
+            $query->where('rents.bedrooms', '>=', $request->bedrooms);
+        }
+
+        if ($request->filled('bathrooms')) {
+            $query->where('rents.bathrooms', '>=', $request->bathrooms);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('rents.status', $request->status);
+        }
+
+        if ($request->filled('available_from')) {
+            $query->where('rents.available_from', '<=', $request->available_from);
+        }
+
+        $rents = $query->groupBy([
+            'rents.id',
+            'rents.title',
+            'rents.highlighted',
+            'rents.price',
+            'rents.currency',
+            'cities.name',
+            'rents.available_from',
+            'rent_images.base64',
+            'rents.bedrooms',
+            'rents.bathrooms',
+            'rents.area',
+            'rents.status',
+        ])
             ->get()
             ->map(function ($rent) {
                 return [
@@ -181,7 +230,7 @@ class RentController extends Controller
                     'city' => $rent->city,
                     'available_from' => $rent->available_from,
                     'defaultimage' => $rent->base64,
-                    'rating' => (int) $rent->rating
+                    'rating' => round((float) $rent->rating, 1),
                 ];
             });
 
