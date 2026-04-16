@@ -21,7 +21,7 @@ class Admin
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if (!Auth::check() || !($user && $user->role === 0)) {
+        if (!Auth::check() || !($user && $user->role === 1)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
         return $next($request);

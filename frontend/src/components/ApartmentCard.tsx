@@ -7,12 +7,17 @@ import { Link } from "react-router-dom";
 
 export const ApartmentCard = ({ apartments }: { apartments: Apartment[] }) => {
   return apartments.map((apt: Apartment) => (
-    <Link to={`/rent//${apt.id}`} key={apt.id} className={styles.apartmentCard}>
-      <img
-        src={apt.defaultimage ?? placeholderImage}
-        alt={apt.title}
-        className={styles.apartmentImage}
-      />
+    <Link to={`/rent//${apt.id}`} key={apt.id} className={`${styles.apartmentCard} ${apt.highlighted ? styles.highlightedCard : ""}`}>
+      <div className={styles.imageWrapper}>
+        <img
+          src={apt.defaultimage ?? placeholderImage}
+          alt={apt.title}
+          className={styles.apartmentImage}
+        />
+        {apt.highlighted && (
+          <span className={styles.highlightedBadge}>⭐ Kiemelt hirdetés</span>
+        )}
+      </div>
       <h3>{apt.title}</h3>
       <div className="flex gap-3 justify-between">
         <div className="flex gap-1 items-center justify-center">

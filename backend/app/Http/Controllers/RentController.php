@@ -135,6 +135,14 @@ class RentController extends Controller
         return response()->json($rent);
     }
 
+    public function highlight(Rent $rent)
+    {
+        $rent->highlighted = $rent->highlighted ? null : now();
+        $rent->save();
+
+        return response()->json(['highlighted' => $rent->highlighted]);
+    }
+
     public function destroy(Rent $rent)
     {
         $rent->delete();
@@ -219,6 +227,8 @@ class RentController extends Controller
             'rents.area',
             'rents.status',
         ])
+            ->orderByRaw('CASE WHEN rents.highlighted IS NOT NULL THEN 0 ELSE 1 END')
+            ->orderBy('rents.highlighted', 'desc')
             ->get()
             ->map(function ($rent) {
                 return [

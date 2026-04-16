@@ -47,12 +47,33 @@
     box-shadow: 0 6px 20px rgba(120, 90, 60, 0.2);
   }
   
+  .imageWrapper {
+    position: relative;
+  }
+
   .apartmentImage {
     width: 100%;
     height: 180px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 10px;
+  }
+
+  .highlightedBadge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #4a3425;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  .highlightedCard {
+    border-color: rgba(255, 255, 255, 0.25);
   }
   
   .apartmentCard h3 {

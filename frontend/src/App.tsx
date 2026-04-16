@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Apartment from "./Pages/Apartment";
 import Admin from "./Pages/Admin";
+import Profile from "./Pages/Profile";
 import { AuthProvider } from "./hooks/authProvider";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -19,6 +20,7 @@ const Routing = () => {
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="admin" element={<Admin />} />
+      <Route path="profile" element={<Profile />} />
       <Route path="*" element={<div>404 - Az oldal nem található</div>} />
     </Routes>
   );

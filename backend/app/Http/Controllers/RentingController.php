@@ -4,12 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Renting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RentingController extends Controller
 {
     public function index()
     {
-        return response()->json(Renting::all());
+        $rentings = DB::table('rentings')
+            ->select(
+                'rentings.id',
+                'rentings.rents_id',
+                'rentings.renter',
+                'rentings.owner',
+                'renters.name as renter_name',
+                'owners.name as owner_name',
+                'rentings.price',
+                'rentings.rented_from',
+                'rentings.rented_until'
+            )
+            ->leftJoin('users as renters', 'rentings.renter', '=', 'renters.id')
+            ->leftJoin('users as owners', 'rentings.owner', '=', 'owners.id')
+            ->get();
+
+        return response()->json($rentings);
     }
 
     public function store(Request $request)

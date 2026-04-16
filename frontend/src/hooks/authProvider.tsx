@@ -13,14 +13,16 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   register: (
     name: string,
     email: string,
     password: string,
     password_confirmation: string,
   ) => Promise<void>;
+  updateUser: (updated: User) => void;
   isAuthenticated: boolean;
+  authLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,6 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     const savedToken = sessionStorage.getItem("access_token");
@@ -39,6 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(JSON.parse(savedUser));
       axios.defaults.headers.common["Authorization"] = `Bearer ${savedToken}`;
     }
+    setAuthLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -96,9 +100,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(user);
   };
 
+  const updateUser = (updated: User) => {
+    setUser(updated);
+    sessionStorage.setItem("user", JSON.stringify(updated));
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, token, login, register, logout, isAuthenticated: !!token }}
+      value={{ user, token, login, register, logout, updateUser, isAuthenticated: !!token, authLoading }}
     >
       {children}
     </AuthContext.Provider>
