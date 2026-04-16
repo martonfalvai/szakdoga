@@ -10,7 +10,11 @@ class Review extends Model
     /** @use HasFactory<\Database\Factories\ReviewFactory> */
     use HasFactory;
 
+    public $timestamps = false;
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'rating',
         'renter_comment',
         'owner_comment',

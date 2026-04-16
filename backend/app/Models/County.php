@@ -10,6 +10,8 @@ class County extends Model
     /** @use HasFactory<\Database\Factories\CountyFactory> */
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
     ];

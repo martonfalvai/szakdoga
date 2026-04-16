@@ -15,7 +15,7 @@ class Renting extends Model
         'renter',
         'owner',
         'price',
-        'rented_form',
+        'rented_from',
         'rented_until'
     ];
 }
