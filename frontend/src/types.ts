@@ -30,6 +30,7 @@ export interface ApartmentData {
   available_from: string;
   highlighted: string | null;
   defaultimage: string | null;
+  owner_id?: number;
   images: ApartmentImage[];
   utilities: { id: number; name: string }[];
   reviews: {

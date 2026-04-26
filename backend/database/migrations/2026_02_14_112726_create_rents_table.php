@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('rents', function (Blueprint $table) {
 
             $table->id();
+            $table->foreignId('owner_id')->constrained('users');
             $table->foreignId('rent_type')->constrained('rent_types');
             $table->string('title', 255);
             $table->dateTime('highlighted')->nullable();

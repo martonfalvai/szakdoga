@@ -12,9 +12,12 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountyController;
 use App\Http\Controllers\RentTypeController;
 use App\Http\Controllers\UtilityOptionController;
+use App\Http\Controllers\ContactController;
 use App\Http\Middleware\Admin;
 
 // ─── PUBLIKUS ────────────────────────────────────────────────────────────────
+
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::get('/rents', [RentController::class, 'mainPageRents']);
 Route::get('/rents/{id}', [RentController::class, 'show']);

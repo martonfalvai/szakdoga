@@ -16,6 +16,7 @@ class RentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'owner_id'       => 'required|integer|exists:users,id',
             'rent_type'      => 'required|integer|exists:rent_types,id',
             'title'          => 'required|string|max:255',
             'description'    => 'required|string',
@@ -24,20 +25,31 @@ class RentController extends Controller
             'county'         => 'required|integer|exists:counties,id',
             'city'           => 'required|integer|exists:cities,id',
             'address'        => 'required|string|max:255',
-            'area'           => 'required|numeric',
+            'area'           => 'nullable|numeric',
             'bedrooms'       => 'required|integer',
             'bathrooms'      => 'required|integer',
-            'status'         => 'required|string|in:available,rented,inactive',
+            'status'         => 'required|string|in:available,rented,draft,unavailable',
             'available_from' => 'required|date',
             'highlighted'    => 'nullable|date',
+            'utility_ids'    => 'nullable|array',
+            'utility_ids.*'  => 'integer|exists:utility_options,id',
         ]);
 
         $rent = Rent::create($validated);
 
+        if ($request->has('utility_ids') && !empty($validated['utility_ids'])) {
+            foreach ($validated['utility_ids'] as $utilityId) {
+                DB::table('utilities')->insert([
+                    'rent_id' => $rent->id,
+                    'utility_option_id' => $utilityId,
+                ]);
+            }
+        }
+
         return response()->json($rent, 201);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $rent = Rent::select([
             'rents.*',
@@ -101,6 +113,7 @@ class RentController extends Controller
             'available_from' => $rent->available_from,
             'highlighted' => $rent->highlighted,
             'defaultimage' => $rent->defaultimage,
+            'owner_id' => $rent->owner_id,
             'images' => $images,
             'utilities' => $utilities,
             'reviews' => $reviews,
@@ -113,6 +126,12 @@ class RentController extends Controller
 
     public function update(Request $request, Rent $rent)
     {
+        $user = $request->user();
+
+        if (!$user || ($user->id !== $rent->owner_id && $user->role !== 0)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $validated = $request->validate([
             'rent_type'      => 'sometimes|integer|exists:rent_types,id',
             'title'          => 'sometimes|string|max:255',
@@ -125,10 +144,29 @@ class RentController extends Controller
             'area'           => 'sometimes|numeric',
             'bedrooms'       => 'sometimes|integer',
             'bathrooms'      => 'sometimes|integer',
-            'status'         => 'sometimes|string|in:available,rented,inactive',
+            'status'         => 'sometimes|string|in:available,rented,draft,unavailable',
             'available_from' => 'sometimes|date',
             'highlighted'    => 'nullable|date',
+            'utility_ids'    => 'nullable|array',
+            'utility_ids.*'  => 'integer|exists:utility_options,id',
         ]);
+
+        // Utility opciók frissítése
+        if ($request->has('utility_ids')) {
+            DB::table('utilities')->where('rent_id', $rent->id)->delete();
+
+            if (!empty($validated['utility_ids'])) {
+                foreach ($validated['utility_ids'] as $utilityId) {
+                    DB::table('utilities')->insert([
+                        'rent_id' => $rent->id,
+                        'utility_option_id' => $utilityId,
+                    ]);
+                }
+            }
+        }
+
+        // utility_ids-t nem mentjük a rent record-hoz
+        unset($validated['utility_ids']);
 
         $rent->update($validated);
 
@@ -143,8 +181,14 @@ class RentController extends Controller
         return response()->json(['highlighted' => $rent->highlighted]);
     }
 
-    public function destroy(Rent $rent)
+    public function destroy(Request $request, Rent $rent)
     {
+        $user = $request->user();
+
+        if (!$user || ($user->id !== $rent->owner_id && $user->role !== 0)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $rent->delete();
 
         return response()->json(null, 204);
@@ -171,7 +215,8 @@ class RentController extends Controller
             ->leftJoin('cities', 'rents.city', '=', 'cities.id')
             ->leftJoin('counties', 'rents.county', '=', 'counties.id')
             ->leftJoin('rentings', 'rents.id', '=', 'rentings.rents_id')
-            ->leftJoin('reviews', 'rentings.id', '=', 'reviews.id');
+            ->leftJoin('reviews', 'rentings.id', '=', 'reviews.id')
+            ->where('rents.status', 'available');
 
         if ($request->filled('city')) {
             $query->where('cities.name', 'like', '%' . $request->city . '%');

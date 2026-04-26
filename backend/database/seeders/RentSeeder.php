@@ -16,6 +16,7 @@ class RentSeeder extends Seeder
 
         DB::table('rents')->insert([
             [
+                'owner_id'       => 2,
                 'rent_type'      => 1,
                 'title'          => 'Felújított lakás a belvárosban',
                 'highlighted'    => null,
@@ -35,6 +36,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 3,
                 'rent_type'      => 2,
                 'title'          => 'Csendes családi ház kerttel',
                 'highlighted'    => now(),
@@ -54,6 +56,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 4,
                 'rent_type'      => 3,
                 'title'          => 'Modern garzon a városközpontban',
                 'highlighted'    => null,
@@ -73,6 +76,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 5,
                 'rent_type'      => 1,
                 'title'          => 'Tágas lakás a Duna partján',
                 'highlighted'    => null,
@@ -92,6 +96,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 2,
                 'rent_type'      => 2,
                 'title'          => 'Kis családi ház vidéken',
                 'highlighted'    => null,
@@ -111,6 +116,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 3,
                 'rent_type'      => 3,
                 'title'          => 'Stúdió lakás diákoknak',
                 'highlighted'    => null,
@@ -130,6 +136,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 4,
                 'rent_type'      => 1,
                 'title'          => 'Luxus lakás a hegyekben',
                 'highlighted'    => now(),
@@ -149,6 +156,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 5,
                 'rent_type'      => 2,
                 'title'          => 'Régi ház felújítva',
                 'highlighted'    => null,
@@ -168,6 +176,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 2,
                 'rent_type'      => 3,
                 'title'          => 'Kompakt lakás fiataloknak',
                 'highlighted'    => null,
@@ -187,6 +196,7 @@ class RentSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
+                'owner_id'       => 3,
                 'rent_type'      => 1,
                 'title'          => 'Középkori lakás',
                 'highlighted'    => null,

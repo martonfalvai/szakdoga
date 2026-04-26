@@ -1,0 +1,70 @@
+# Dokumentáció
+*.md
+
+# PDF fájlok
+*.pdf
+
+# Claude Code
+.claude/
+.codereview/
+
+# Operációs Rendszer
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE és Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Backend (PHP/Laravel)
+backend/vendor/
+backend/composer.lock
+backend/.env
+backend/.env.*.php
+backend/storage/logs/
+backend/storage/app/public/*
+!backend/storage/app/public/.gitkeep
+backend/bootstrap/cache/
+backend/node_modules/
+backend/npm-debug.log
+backend/.DS_Store
+
+# Frontend (Node/React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log
+frontend/yarn-error.log
+frontend/.DS_Store
+
+# Database
+*.sql
+*.sqlite
+*.db
+*.sqlite3
+
+# Teszt fájlok
+.coverage/
+coverage/
+*.log
+
+# OS specifikus
+.env.local
+.env.*.local
+
+# Misc
+.tmp/
+tmp/
+temp/
+*.bak
+*.backup

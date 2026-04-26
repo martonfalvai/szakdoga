@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../api/axiosConfig";
-import { ArrowLeft, MapPin, ShareIcon, StarIcon } from "lucide-react";
+import { ArrowLeft, MapPin, ShareIcon, Trash2, Star } from "lucide-react";
 import ApartmentGallery from "../components/ApartmentGallery";
 import ReviewList from "../components/ReviewList";
 import ContactModal from "../components/ContactModal";
@@ -18,21 +18,25 @@ const statusMap: Record<string, { label: string; color: string }> = {
 const Apartment = () => {
   const { apartmentId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [apartment, setApartment] = useState<ApartmentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
-    // majd itt lesz az API hívás:
-    axios.get(`/api/rents/${apartmentId}`).then((res) => {
-      setApartment(res.data);
-      setLoading(false);
-    });
-    // setTimeout(() => {
-    //   setApartment(MOCK_DATA);
-    //   setLoading(false);
-    // }, 500);
+    axios.get(`/api/rents/${apartmentId}`)
+      .then((res) => {
+        setApartment(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response?.status === 403) {
+          toast.error("Nincs jogosultságod megtekinteni ezt a hirdetést!");
+          navigate("/");
+        } else {
+          setLoading(false);
+        }
+      });
   }, [apartmentId]);
 
   if (loading) return <p className="text-center mt-10">Betöltés...</p>;
@@ -43,27 +47,120 @@ const Apartment = () => {
     toast.success("Megosztási link kimásolva.");
   };
 
+  const isOwner = apartment.owner_id && user && apartment.owner_id === user.id;
+
+  const handleDelete = async () => {
+    if (!window.confirm("Biztosan törlöd ezt a hirdetést?")) {
+      return;
+    }
+
+    try {
+      await axios.delete(`/api/rents/${apartment.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Hirdetés törölve!");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      toast.error("Hiba a hirdetés törlése során!");
+    }
+  };
+
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const handleMarkAsRented = async () => {
+    try {
+      await axios.put(`/api/rents/${apartment.id}`, {
+        status: "rented",
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setApartment({ ...apartment, status: "rented" });
+      toast.success("Hirdetés kiadva jelöléssel!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Hiba a státusz frissítése során!");
+    }
+  };
+
+  const handleMarkAsAvailable = async () => {
+    try {
+      await axios.put(`/api/rents/${apartment.id}`, {
+        status: "available",
+        available_from: getTodayDate(),
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setApartment({ ...apartment, status: "available", available_from: getTodayDate() });
+      toast.success("Hirdetés újra elérhető!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Hiba a státusz frissítése során!");
+    }
+  };
+
   const status = statusMap[apartment.status] || statusMap.available;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       {/* fejléc */}
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between items-center mb-6 gap-2">
         <button
           onClick={() => navigate(-1)}
           className="px-4 py-2 rounded-lg border hover:bg-gray-100"
         >
           <span className="flex gap-1 items-center">
-            <ArrowLeft />
+            <ArrowLeft width={16} />
             Vissza
           </span>
         </button>
-        <button className="px-4 py-2 rounded-lg border hover:bg-gray-100">
-          <span className="flex gap-2 items-center" onClick={() => share()}>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => share()}
+            className="px-4 py-2 rounded-lg border hover:bg-gray-100 flex gap-2 items-center"
+          >
             Megosztás
             <ShareIcon className="opacity-75" width={16} />
-          </span>
-        </button>
+          </button>
+
+          {isOwner && (
+            <>
+              {apartment.status === "available" && (
+                <button
+                  onClick={handleMarkAsRented}
+                  className="px-4 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 flex gap-2 items-center"
+                >
+                  ✓ Kiadva
+                </button>
+              )}
+              {apartment.status === "rented" && (
+                <button
+                  onClick={handleMarkAsAvailable}
+                  className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 flex gap-2 items-center"
+                >
+                  ↻ Elérhető
+                </button>
+              )}
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 flex gap-2 items-center"
+              >
+                <Trash2 width={16} />
+                Törlés
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {/* cím és státusz */}
@@ -106,7 +203,7 @@ const Apartment = () => {
             </div>
             <div className="border rounded-xl p-4 text-center">
               <p className="text-lg font-semibold flex items-center justify-center gap-1">
-                <StarIcon
+                <Star
                   width={16}
                   fill="gold"
                   stroke="darkgray"

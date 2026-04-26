@@ -1,26 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./Footer.module.css"; // opcionális
 
 const Footer: React.FC = () => {
-  const orbRef = useRef<HTMLDivElement>(null);
-  const [year, setYear] = useState<number>(new Date().getFullYear());
-
-  const footerLinks = [
-    { label: "Adatvédelmi nyilatkozat", to: "/privacy" },
-    { label: "Felhasználási feltételek", to: "/terms" },
-    { label: "Kapcsolat", to: "/contact" },
-  ];
-
   return (
     <footer className="relative bg-gradient-to-r from-[#f6dfc6d9] to-[#fddcbcd9] text-white overflow-hidden">
-      {/* Animated background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20"></div>
 
-      {/* Main content */}
       <div className="relative max-w-7xl mx-auto px-6 py-16 sm:py-20 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12">
-          {/* Logo section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12">
           <div className="group">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-[#5b3f23d9] to-[#d38a40d9] rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
@@ -33,14 +20,9 @@ const Footer: React.FC = () => {
             <p className="text-[#5c4033] mb-6">
               Találd meg álmdaid lakásást velünk!
             </p>
-
-            {/* Social icons */}
-            <div className="flex space-x-4">
-              {/* Add more social icons here */}
-            </div>
           </div>
 
-          {/* Quick links */}
+          {/* Gyors linkek */}
           <div>
             <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
               Gyors linkek
@@ -81,7 +63,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact info */}
+          {/* Kapcsolat */}
           <div>
             <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
               Lépj velünk kapcsolatba
@@ -142,53 +124,18 @@ const Footer: React.FC = () => {
                     href="tel:+244941540352"
                     className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
                   >
-                    +12 3 456 7890
+                    +36 1 233 7582
                   </a>
                 </div>
               </li>
             </ul>
           </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-lg text-[#5c4033] font-semibold mb-6">
-              Légy Naprakész
-            </h3>
-            <p className="text-[#5c4033] mb-4">Iratkozz fel hírlevelünkre!</p>
-            <form className="mt-4">
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="Add meg az email címed"
-                  className="w-full bg-gradient-to-r from-[#4a3a28] to-[#d8a776] border border-[#d2a995] rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#a57057] focus:border-transparent placeholder-[#f5ece7] text-[#ffffff]"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#5c4033] hover:bg-[#a57057] text-white rounded-lg px-4 py-1 transition"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
 
-        {/* Bottom section */}
+        {/* Also sav */}
         <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
           <p className="text-[#5c4033] text-sm mb-4 md:mb-0">
-            &copy; {year} MAPUMA. Minden jog fenntartva.
+            &copy; {new Date().getFullYear()} MAPUMA. Minden jog fenntartva.
           </p>
           <div className="flex space-x-6">
             <Link
@@ -207,7 +154,7 @@ const Footer: React.FC = () => {
               to="/cookies"
               className="text-[#5c4033] hover:text-[#8a5d2b] transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#8B4513] after:transition-all after:duration-300 hover:after:w-full"
             >
-              Cookiek
+              Sütik
             </Link>
           </div>
         </div>

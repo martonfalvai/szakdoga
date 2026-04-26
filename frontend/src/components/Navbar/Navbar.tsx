@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useAuth } from "../../hooks/authProvider";
-import { LogOut, ShieldCheck } from "lucide-react";
+import { LogOut, ShieldCheck, Plus } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -61,27 +61,37 @@ const Navbar: React.FC = () => {
 
         <div className={styles.rightMenu}>
           {isAuthenticated && user ? (
-            <div className={styles.userArea}>
+            <>
               <button
-                className={styles.avatar}
-                onClick={() => navigate("/profile")}
+                className={styles.advertiseButton}
+                onClick={() => navigate("/create-advertisement")}
+                title="Hirdetés feladása"
               >
-                {user.name.charAt(0).toUpperCase()}
+                <Plus size={18} />
+                <span>Hirdetésfeladás</span>
               </button>
-              <button
-                className={styles.userName}
-                onClick={() => navigate("/profile")}
-              >
-                {user.name}
-              </button>
-              <button
-                className={styles.logoutButton}
-                onClick={handleLogout}
-                title="Kijelentkezés"
-              >
-                <LogOut size={16} />
-              </button>
-            </div>
+              <div className={styles.userArea}>
+                <button
+                  className={styles.avatar}
+                  onClick={() => navigate("/profile")}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </button>
+                <button
+                  className={styles.userName}
+                  onClick={() => navigate("/profile")}
+                >
+                  {user.name}
+                </button>
+                <button
+                  className={styles.logoutButton}
+                  onClick={handleLogout}
+                  title="Kijelentkezés"
+                >
+                  <LogOut size={16} />
+                </button>
+              </div>
+            </>
           ) : (
             <button
               className={styles.loginButton}
@@ -134,6 +144,18 @@ const Navbar: React.FC = () => {
           >
             <ShieldCheck size={15} />
             Admin
+          </button>
+        )}
+        {isAuthenticated && (
+          <button
+            className={`${styles.navButton} ${styles.mobileAdvertiseButton}`}
+            onClick={() => {
+              navigate("/create-advertisement");
+              setOpen(false);
+            }}
+          >
+            <Plus size={15} />
+            Hirdetésfeladás
           </button>
         )}
         {isAuthenticated ? (

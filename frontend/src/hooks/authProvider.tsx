@@ -64,11 +64,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     if (!token) return;
 
-    const response = await axios.post("/api/logout");
-
-    const { message } = await response.data;
-
-    if (message === "Logout successful" || response.status == 200) {
+    try {
+      await axios.post("/api/logout", {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("user");
       delete axios.defaults.headers.common["Authorization"];

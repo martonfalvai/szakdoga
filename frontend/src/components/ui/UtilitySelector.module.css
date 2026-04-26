@@ -1,0 +1,139 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.selectedContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #e0d5cc;
+  border-radius: 6px;
+  background: white;
+  min-height: 38px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selectedContainer:hover {
+  border-color: #8b5e3c;
+}
+
+.selectedContainer:focus-within {
+  outline: none;
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.1);
+}
+
+.placeholder {
+  font-size: 13px;
+  color: #a0937a;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #8b5e3c 0%, #6a3918 100%);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chipClose {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.chipClose:hover {
+  opacity: 1;
+}
+
+.trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #8b5e3c;
+  transition: transform 0.2s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.trigger:hover {
+  color: #6a3918;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0d5cc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  margin-top: -1px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid #e0d5cc;
+  font-size: 13px;
+  outline: none;
+}
+
+.searchInput:focus {
+  background: rgba(139, 94, 60, 0.02);
+}
+
+.optionsList {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  padding: 10px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  color: #4a3425;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f5f1ed;
+}
+
+.option:hover {
+  background: rgba(139, 94, 60, 0.05);
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.emptyState {
+  padding: 16px 10px;
+  text-align: center;
+  color: #a0937a;
+  font-size: 13px;
+}

@@ -11,6 +11,7 @@ class Rent extends Model
     use HasFactory;
 
     protected $fillable = [
+        'owner_id',
         'rent_type',
         'title',
         'highlighted',
