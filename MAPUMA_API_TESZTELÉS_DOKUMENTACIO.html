@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAPUMA - API és Tesztelés Dokumentáció</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #2563eb;
+        padding-bottom: 20px;
+      }
+
+      header h1 {
+        color: #2563eb;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .toc {
+        background-color: #f0f9ff;
+        padding: 20px;
+        border-left: 4px solid #2563eb;
+        margin-bottom: 40px;
+        border-radius: 4px;
+      }
+
+      .toc h2 {
+        color: #2563eb;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+      }
+
+      .toc ul {
+        list-style: none;
+        margin-left: 0;
+      }
+
+      .toc li {
+        margin: 8px 0;
+        padding-left: 20px;
+      }
+
+      .toc a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .toc a:hover {
+        text-decoration: underline;
+      }
+
+      section {
+        margin-bottom: 50px;
+      }
+
+      h2 {
+        color: #2563eb;
+        font-size: 2em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e0e7ff;
+      }
+
+      h3 {
+        color: #1e40af;
+        font-size: 1.5em;
+        margin-top: 25px;
+        margin-bottom: 15px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background-color: #2563eb;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9fafb;
+      }
+
+      tr:hover {
+        background-color: #f3f4f6;
+      }
+
+      .method {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+
+      .method-get {
+        background-color: #dbeafe;
+        color: #1e40af;
+      }
+
+      .method-post {
+        background-color: #dcfce7;
+        color: #166534;
+      }
+
+      .method-put {
+        background-color: #fef3c7;
+        color: #92400e;
+      }
+
+      .method-delete {
+        background-color: #fee2e2;
+        color: #991b1b;
+      }
+
+      .method-patch {
+        background-color: #f3e8ff;
+        color: #6b21a8;
+      }
+
+      .pass-badge {
+        background-color: #dcfce7;
+        color: #166534;
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+
+      .middleware {
+        background-color: #fef08a;
+        color: #713f12;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-weight: 600;
+        display: inline-block;
+        margin: 10px 0;
+      }
+
+      .info-box {
+        background-color: #eff6ff;
+        border-left: 4px solid #3b82f6;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 4px;
+      }
+
+      .info-box strong {
+        color: #1e40af;
+      }
+
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e7ff;
+        text-align: center;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+
+        header h1 {
+          font-size: 1.8em;
+        }
+
+        table {
+          font-size: 0.9em;
+        }
+
+        th,
+        td {
+          padding: 8px;
+        }
+      }
+
+      @media print {
+        body {
+          background-color: white;
+          padding: 0;
+        }
+
+        .container {
+          box-shadow: none;
+          padding: 0;
+        }
+
+        section {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section id="api-dokumentacio">
+        <h2>API Dokumentáció</h2>
+        <p style="margin-bottom: 20px; color: #555">
+          Az alábbi táblázat az alkalmazás összes publikus és védetett API
+          végpontját dokumentálja. A <code>/api</code> prefixet minden URL
+          automatikusan tartalmazza.
+        </p>
+
+        <h3 id="publikus-vegpontok">Publikus végpontok (auth nélkül)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 10%">Metódus</th>
+              <th style="width: 18%">URL</th>
+              <th style="width: 25%">Paraméterek</th>
+              <th style="width: 25%">Leírás</th>
+              <th style="width: 22%">Válasz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/rents</td>
+              <td>
+                query: city, county, price_min, price_max, bedrooms, bathrooms,
+                area_min, area_max, available_from
+              </td>
+              <td>
+                Összes <strong>elérhető</strong> hirdetés listázása
+                (status=available) szűrési lehetőséggel
+              </td>
+              <td>
+                JSON array of rents with owner, images, utilities, reviews
+              </td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/rents/{id}</td>
+              <td>—</td>
+              <td>Egy konkrét hirdetés részletes adatai</td>
+              <td>
+                Rent object + owner details + utilities array + rent_images
+                array + reviews
+              </td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/rent-types</td>
+              <td>—</td>
+              <td>Lakástípusok (apartman, ház, stúdió, garzon)</td>
+              <td>[{id: 1, name: "Apartman"}, ...]</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/counties</td>
+              <td>—</td>
+              <td>Megyék listája</td>
+              <td>[{id: 1, name: "Budapest"}, ...]</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/cities</td>
+              <td>—</td>
+              <td>Városok listája</td>
+              <td>[{id: 1, name: "Budapest"}, ...]</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/utility-options</td>
+              <td>—</td>
+              <td>Felszereltség opciók (WiFi, garázs, balkon, stb.)</td>
+              <td>[{id: 1, name: "WiFi"}, ...]</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/contact</td>
+              <td>body: name*, email*, phone?, message*</td>
+              <td>
+                Kapcsolatfelvételi form beküldése (szerver-oldali logging)
+              </td>
+              <td>
+                {message: "Üzenet sikeresen elküldve!", status: "success"}
+              </td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/register</td>
+              <td>body: name*, email*, password*, password_confirmation*</td>
+              <td>Új felhasználó regisztrációja</td>
+              <td>{user: {...}, access_token: "..."}</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/login</td>
+              <td>body: email*, password*</td>
+              <td>Bejelentkezés email/jelszó alapján</td>
+              <td>{user: {...}, access_token: "..."}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 id="vedett-vegpontok">Védetett végpontok (Sanctum Bearer token)</h3>
+        <p style="margin-bottom: 15px; color: #555">
+          Minden végpontnál szükséges:
+          <code>Authorization: Bearer {access_token}</code> header
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 10%">Metódus</th>
+              <th style="width: 18%">URL</th>
+              <th style="width: 30%">Paraméterek</th>
+              <th style="width: 22%">Leírás</th>
+              <th style="width: 20%">Jogosultság</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/user</td>
+              <td>—</td>
+              <td>Jelenlegi bejelentkezett user adatai</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/user</td>
+              <td>body: name?, email?, password?, password_confirmation?</td>
+              <td>Profil módosítása (email nem módosítható)</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/logout</td>
+              <td>body: {}</td>
+              <td>Kijelentkezés, token revokáció</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/rents</td>
+              <td>
+                body: title*, description?, price*, currency*, city*, county*,
+                rent_type*, address*, area?, bedrooms*, bathrooms*,
+                available_from*, utility_ids?[]
+              </td>
+              <td>Új hirdetés létrehozása (status auto: available/draft)</td>
+              <td>Bejelentkezett user (owner_id = user.id)</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/rents/{id}</td>
+              <td>body: (mint create)</td>
+              <td>Hirdetés módosítása</td>
+              <td>Owner vagy Admin</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/rents/{id}</td>
+              <td>—</td>
+              <td>Hirdetés törlése (cascade: images, rentings, reviews)</td>
+              <td>Owner vagy Admin</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/user/rents</td>
+              <td>—</td>
+              <td>Bejelentkezett user saját hirdetéseit listázza</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/upload</td>
+              <td>
+                body: images[]*, rent_id*, default_image_index?
+                (multipart/form-data)
+              </td>
+              <td>Képfeltöltés egy hirdetéshez (Base64 vagy binary)</td>
+              <td>Owner vagy Admin</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/images/{rent_image}</td>
+              <td>—</td>
+              <td>Egy kép törlése</td>
+              <td>Owner vagy Admin</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/rentings</td>
+              <td>body: rent_id*, user_id*</td>
+              <td>Bérlés kezdeményezése</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/user/rentings</td>
+              <td>—</td>
+              <td>Bejelentkezett user bérléseit listázza</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/user/ownerships</td>
+              <td>—</td>
+              <td>Bejelentkezett user tulajdonosi bérléseit listázza</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/rentings/{id}</td>
+              <td>—</td>
+              <td>Bérlés törlése</td>
+              <td>Owner vagy Admin</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/reviews</td>
+              <td>body: renting_id*, rating* (1-5), comment?</td>
+              <td>Értékelés írása (PK = renting_id)</td>
+              <td>Bejelentkezett user</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/reviews/{id}</td>
+              <td>body: rating?, comment?</td>
+              <td>Értékelés módosítása</td>
+              <td>Author</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/reviews/{id}</td>
+              <td>—</td>
+              <td>Értékelés törlése</td>
+              <td>Author vagy Admin</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 id="admin-vegpontok">Admin végpontok (role=0 && Sanctum token)</h3>
+        <div class="middleware">Middleware: auth:sanctum, Admin::class</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 10%">Metódus</th>
+              <th style="width: 25%">URL</th>
+              <th style="width: 35%">Paraméterek</th>
+              <th style="width: 30%">Leírás</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/users</td>
+              <td>—</td>
+              <td>Összes felhasználó listázása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/admin/users</td>
+              <td>body: name*, email*, password*</td>
+              <td>Felhasználó létrehozása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/users/{id}</td>
+              <td>body: name?, email?, password?, role?</td>
+              <td>Felhasználó módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/users/{id}</td>
+              <td>—</td>
+              <td>Felhasználó törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-patch">PATCH</span></td>
+              <td>/admin/rents/{rent}/highlight</td>
+              <td>—</td>
+              <td>Hirdetés kiemelése (highlighted = now())</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/rents</td>
+              <td>—</td>
+              <td>Összes hirdetés (inclusive: rented, draft)</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/rents/{id}</td>
+              <td>body: (mint user create)</td>
+              <td>Hirdetés módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/rents/{id}</td>
+              <td>—</td>
+              <td>Hirdetés törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/rentings</td>
+              <td>—</td>
+              <td>Összes bérlés</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/rentings/{id}</td>
+              <td>—</td>
+              <td>Bérlés törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/reviews</td>
+              <td>—</td>
+              <td>Összes értékelés</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/reviews/{id}</td>
+              <td>—</td>
+              <td>Értékelés törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/counties</td>
+              <td>—</td>
+              <td>Összes megye</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/admin/counties</td>
+              <td>body: name*</td>
+              <td>Megye létrehozása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/counties/{id}</td>
+              <td>body: name*</td>
+              <td>Megye módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/counties/{id}</td>
+              <td>—</td>
+              <td>Megye törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/cities</td>
+              <td>—</td>
+              <td>Összes város</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/admin/cities</td>
+              <td>body: name*, county_id*</td>
+              <td>Város létrehozása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/cities/{id}</td>
+              <td>body: name?, county_id?</td>
+              <td>Város módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/cities/{id}</td>
+              <td>—</td>
+              <td>Város törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/rent-types</td>
+              <td>—</td>
+              <td>Összes lakástípus</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/admin/rent-types</td>
+              <td>body: name*</td>
+              <td>Lakástípus létrehozása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/rent-types/{id}</td>
+              <td>body: name*</td>
+              <td>Lakástípus módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/rent-types/{id}</td>
+              <td>—</td>
+              <td>Lakástípus törlése</td>
+            </tr>
+            <tr>
+              <td><span class="method method-get">GET</span></td>
+              <td>/admin/utility-options</td>
+              <td>—</td>
+              <td>Összes felszereltség opció</td>
+            </tr>
+            <tr>
+              <td><span class="method method-post">POST</span></td>
+              <td>/admin/utility-options</td>
+              <td>body: name*</td>
+              <td>Opció létrehozása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-put">PUT</span></td>
+              <td>/admin/utility-options/{id}</td>
+              <td>body: name*</td>
+              <td>Opció módosítása</td>
+            </tr>
+            <tr>
+              <td><span class="method method-delete">DELETE</span></td>
+              <td>/admin/utility-options/{id}</td>
+              <td>—</td>
+              <td>Opció törlése</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 id="hibakodok">HTTP hibakódok és leírások</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12%">Hibakód</th>
+              <th style="width: 25%">Szcenária</th>
+              <th style="width: 63%">Válasz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #dcfce7">
+              <td><strong>200 OK</strong></td>
+              <td>Sikeres GET/PUT/PATCH</td>
+              <td>Objektum vagy objektum array</td>
+            </tr>
+            <tr style="background-color: #dcfce7">
+              <td><strong>201 Created</strong></td>
+              <td>Sikeres POST (új erőforrás)</td>
+              <td>Új objektum + location header</td>
+            </tr>
+            <tr style="background-color: #fef3c7">
+              <td><strong>400 Bad Request</strong></td>
+              <td>Malformed JSON/URL</td>
+              <td>
+                {"message": "The given data was invalid.", "errors": {...}}
+              </td>
+            </tr>
+            <tr style="background-color: #fee2e2">
+              <td><strong>401 Unauthorized</strong></td>
+              <td>Missing/invalid token</td>
+              <td>{"message": "Unauthorized"}</td>
+            </tr>
+            <tr style="background-color: #fee2e2">
+              <td><strong>403 Forbidden</strong></td>
+              <td>Token valid, de nincs jogosultság</td>
+              <td>{"message": "This action is not authorized."}</td>
+            </tr>
+            <tr style="background-color: #fee2e2">
+              <td><strong>404 Not Found</strong></td>
+              <td>Resource nem létezik</td>
+              <td>{"message": "Not found"}</td>
+            </tr>
+            <tr style="background-color: #fef3c7">
+              <td><strong>422 Unprocessable Entity</strong></td>
+              <td>Validáció hiba</td>
+              <td>
+                {"message": "The given data was invalid.", "errors": {field:
+                [...]}}
+              </td>
+            </tr>
+            <tr style="background-color: #fee2e2">
+              <td><strong>500 Internal Server Error</strong></td>
+              <td>Szerver hiba</td>
+              <td>{"message": "Server error"}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="tesztelesi-dokumentacio">
+        <h2>Tesztelési dokumentáció</h2>
+        <p style="margin-bottom: 20px; color: #555">
+          Az alkalmazás tesztelésére az alábbi unit és integrációs tesztesetek
+          jöhetnek szóba. A szisztematikus tesztelés biztosítja az alkalmazás
+          stabilitását és hibamentes működését.
+        </p>
+
+        <h3 id="backend-tesztek">Backend tesztek (Laravel/PHPUnit)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12%">Test azonosító</th>
+              <th style="width: 12%">Modul</th>
+              <th style="width: 25%">Bemeneti paraméterek</th>
+              <th style="width: 25%">Várt eredmény</th>
+              <th style="width: 12%">Státusz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TEST_AUTH_001</strong></td>
+              <td>Bejelentkezés</td>
+              <td>email: valid@mail.com, password: 123456</td>
+              <td>HTTP 200, access_token</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_AUTH_002</strong></td>
+              <td>Bejelentkezés</td>
+              <td>email: invalid@mail.com</td>
+              <td>HTTP 401 Unauthorized</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_AUTH_003</strong></td>
+              <td>Regisztráció</td>
+              <td>
+                email: new@mail.com, password: 123456, password_confirm: 123456
+              </td>
+              <td>HTTP 201, felhasználó létrehozva</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_AUTH_004</strong></td>
+              <td>Kijelentkezés</td>
+              <td>valid token</td>
+              <td>HTTP 200, token visszavonva</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_001</strong></td>
+              <td>Hirdetés létrehozása</td>
+              <td>valid rent data, owner_id=2</td>
+              <td>HTTP 201, rent.id visszaadva</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_002</strong></td>
+              <td>Hirdetés létrehozása</td>
+              <td>missing required field (title)</td>
+              <td>HTTP 422, validációs hibák</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_003</strong></td>
+              <td>Hirdetés létrehozása</td>
+              <td>invalid city_id (non-existent)</td>
+              <td>HTTP 422, "exists:cities,id" hiba</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_004</strong></td>
+              <td>Hirdetés módosítása</td>
+              <td>owner_id=2 saját hirdetésének módosítása</td>
+              <td>HTTP 200, frissített adatok</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_005</strong></td>
+              <td>Hirdetés módosítása</td>
+              <td>user_id=5 próbálja módosítani owner_id=2 hirdetését</td>
+              <td>HTTP 403 Forbidden</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_006</strong></td>
+              <td>Hirdetés törlése</td>
+              <td>admin (role=0) bármely hirdetést töröl</td>
+              <td>HTTP 200 törölve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_007</strong></td>
+              <td>Hirdetés törlése</td>
+              <td>
+                nem-tulajdonos (user_id=5) próbálja törölni owner_id=2
+                hirdetését
+              </td>
+              <td>HTTP 403 Forbidden</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENT_008</strong></td>
+              <td>Hirdetés kiemelése</td>
+              <td>admin hirdetést kiemel, highlighted=now()</td>
+              <td>HTTP 200, highlighted oszlop frissítve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_IMAGE_001</strong></td>
+              <td>Képek feltöltése</td>
+              <td>valid JPG/PNG fájlok, rent_id=1</td>
+              <td>HTTP 200, képek DB-ben mentve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_IMAGE_002</strong></td>
+              <td>Képek feltöltése</td>
+              <td>túl nagy fájl (>10MB)</td>
+              <td>HTTP 413 Payload Too Large</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_IMAGE_003</strong></td>
+              <td>Képek feltöltése</td>
+              <td>érvénytelen formátum (PDF)</td>
+              <td>HTTP 422, nem támogatott formátum</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_IMAGE_004</strong></td>
+              <td>Kép törlése</td>
+              <td>tulajdonos saját képét törli</td>
+              <td>HTTP 200 törölve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_IMAGE_005</strong></td>
+              <td>Kép törlése</td>
+              <td>nem-tulajdonos próbálja törölni</td>
+              <td>HTTP 403 Forbidden</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_CONTACT_001</strong></td>
+              <td>Kapcsolatforma</td>
+              <td>valid: name, email, message</td>
+              <td>HTTP 200, \Log::info() naplózva</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_CONTACT_002</strong></td>
+              <td>Kapcsolatforma</td>
+              <td>invalid email formátum</td>
+              <td>HTTP 422 validációs hiba</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_CONTACT_003</strong></td>
+              <td>Kapcsolatforma</td>
+              <td>üzenet > 500 karakter</td>
+              <td>HTTP 422, max validáció</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_RENTING_001</strong></td>
+              <td>Bérlés létrehozása</td>
+              <td>valid rent_id, user_id</td>
+              <td>HTTP 201, bérlés létrehozva</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_REVIEW_001</strong></td>
+              <td>Értékelés létrehozása</td>
+              <td>renting_id=1, valid rating 1-5</td>
+              <td>HTTP 201, értékelés renting_id-val mint id</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_REVIEW_002</strong></td>
+              <td>Értékelés létrehozása</td>
+              <td>duplikált renting_id</td>
+              <td>HTTP 422, duplikált PK hiba</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_ADMIN_001</strong></td>
+              <td>Hirdetés kiemelése</td>
+              <td>role=0 felhasználó hirdetést kiemel</td>
+              <td>HTTP 200, highlighted=now()</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>TEST_ADMIN_002</strong></td>
+              <td>Hirdetés kiemelése</td>
+              <td>nem-admin (role=1) próbálkozik</td>
+              <td>HTTP 403 Forbidden</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 id="frontend-tesztek">Frontend tesztek (React/E2E)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12%">Test azonosító</th>
+              <th style="width: 12%">Modul</th>
+              <th style="width: 40%">Teszt szcenária</th>
+              <th style="width: 24%">Várt eredmény</th>
+              <th style="width: 12%">Státusz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FE_REG_001</strong></td>
+              <td>Regisztráció</td>
+              <td>
+                Regisztráció → email: new@test.hu, pwd: Test123 → bejelentkezés
+                → Kezdőoldal
+              </td>
+              <td>
+                Felhasználó bejelentkezve, token sessionStorage-ba mentve,
+                Navbar megjeleníti a felhasználónevet
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_LOGIN_001</strong></td>
+              <td>Bejelentkezés</td>
+              <td>
+                Bejelentkezési forma → érvényes adatok → átirányítás
+                Kezdőoldalra
+              </td>
+              <td>Kezdőoldal betöltve, auth kontextus frissítve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_LOGIN_002</strong></td>
+              <td>Bejelentkezés</td>
+              <td>Bejelentkezés → hibás jelszó</td>
+              <td>Toast hiba "Bejelentkezés sikertelen"</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_LOGOUT_001</strong></td>
+              <td>Kijelentkezés</td>
+              <td>Kijelentkezés gomb megkattintása</td>
+              <td>Token eltávolítva, átirányítás /, toast</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_001</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>Forma kitöltés → hiányzó mező (title) → beküldés</td>
+              <td>
+                Forma reszketés, hibás toast "Töltsd ki az összes kötelező
+                mezőt!"
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_002</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>Érvényes forma kitöltés (összes kötelező mező) → beküldés</td>
+              <td>
+                Toast "Hirdetés feladva! Most tölts fel képeket." →
+                ImageUploader komponens megjelenik
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_003</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>
+                Available_from = ma → status auto-beállítva "available"-re
+              </td>
+              <td>Backend validálja status=available-t</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_004</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>
+                Available_from = jövő dátum → status auto-beállítva "draft"-re
+              </td>
+              <td>Backend validálja status=draft-et</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_005</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>Felszereltség kiválasztása (checkboxok) → mentés</td>
+              <td>
+                utility_ids array backend-nek küldve, utilities pivot table
+                feltöltve
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_AD_006</strong></td>
+              <td>Hirdetés feladása</td>
+              <td>
+                Nem bejelentkezett felhasználó /create-advertisement-re navigál
+              </td>
+              <td>
+                Átirányítás /login-re + toast "A hirdetés feladásához be kell
+                jelentkezned!"
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_UPLOAD_001</strong></td>
+              <td>Képfeltöltés</td>
+              <td>3 JPG húzása → preview grid 3 képet mutat</td>
+              <td>
+                Grid megjeleníti a képeket eltávolítás/alapértelmezettként
+                beállítás gombokkal
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_UPLOAD_002</strong></td>
+              <td>Képfeltöltés</td>
+              <td>Feltöltés gomb kattintása → spinner megjelenik</td>
+              <td>
+                Upload terület rejtve, spinner mutat, "Képek feltöltödnek..."
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_UPLOAD_003</strong></td>
+              <td>Képfeltöltés</td>
+              <td>Feltöltés befejeződik → átirányítás kezdőoldalra</td>
+              <td>Toast "Hirdetés sikeresen feladva!" + navigate("/")</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_UPLOAD_004</strong></td>
+              <td>Képfeltöltés</td>
+              <td>2. kép alapértelmezettként beállítása → feltöltés</td>
+              <td>
+                Backend default_image_index=1-et kap (0-indexed), helyes kép
+                megjelölve
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_001</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>Tulajdonos saját hirdetésé nézete</td>
+              <td>
+                Törlés gomb látható, státusz váltógombok (elérhető/kiadva)
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_002</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>Nem-tulajdonos hirdetés megtekintése</td>
+              <td>Törlés gomb rejtve, státusz gombok rejtve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_003</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>Tulajdonos "Kiadva" gombra kattint (kiadottként jelöl)</td>
+              <td>
+                Státusz "kiadva"-ra frissül, gomb "↻ Elérhető"-re változik
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_004</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>
+                Tulajdonos "↻ Elérhető" gombra kattint (visszaállít elérhető-re)
+              </td>
+              <td>
+                Státusz "elérhető"-re frissül, available_from mai napra állítva
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_005</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>Nem-tulajdonos törlést próbál (XHR)</td>
+              <td>
+                403 válasz → átirányítás kezdőoldalra, toast "Nincs
+                jogosultságod"
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_APT_006</strong></td>
+              <td>Ingatlan részletes nézete</td>
+              <td>Galéria 4 képpel → nyilak/előnézetek kattintása</td>
+              <td>
+                Navigáció mindkét irányban működik, lightbox megnyílik
+                kattintásra
+              </td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_FILTER_001</strong></td>
+              <td>Kezdőoldal</td>
+              <td>Szűrősáv: város kiválasztása "Budapest"</td>
+              <td>Csak budai hirdetések jelennek meg, oldal nem frissül</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_FILTER_002</strong></td>
+              <td>Kezdőoldal</td>
+              <td>Szűrősáv: price_min=200000, price_max=500000</td>
+              <td>Csak az árrögzített hirdetések jelennek meg</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_FILTER_003</strong></td>
+              <td>Kezdőoldal</td>
+              <td>Szűrősáv: szűrők alaphelyzetbe állítása</td>
+              <td>Összes elérhető hirdetés megjelenik újra</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_CONTACT_001</strong></td>
+              <td>Kapcsolatfelvétel</td>
+              <td>Forma kitöltés → hibás telefonszám (+3630abc)</td>
+              <td>Inline validáció, regex hiba</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_CONTACT_002</strong></td>
+              <td>Kapcsolatfelvétel</td>
+              <td>Érvényes telefonszám +36301234567 → beküldés</td>
+              <td>HTTP 200, toast "Üzenet sikeresen elküldve!"</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_CONTACT_003</strong></td>
+              <td>Kapcsolatfelvétel</td>
+              <td>450+ karakter az üzenetben → beküldés</td>
+              <td>Számláló pirosra vált, figyelmeztetés stílus</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_ABOUT_001</strong></td>
+              <td>Rólunk oldal</td>
+              <td>Oldal betöltése</td>
+              <td>Összes szekció megjelenik: csapat, értékek, elérhetőség</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_ADMIN_001</strong></td>
+              <td>Admin panel</td>
+              <td>role=0 felhasználó /admin-re navigál</td>
+              <td>Admin panel oldalsávval betöltve</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_ADMIN_002</strong></td>
+              <td>Admin panel</td>
+              <td>role=1 felhasználó /admin-re navigál</td>
+              <td>Átirányítás / (nincs hibaútvonal, csendes átirányítás)</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_PROFILE_001</strong></td>
+              <td>Profil</td>
+              <td>Név szerkesztése → mentés</td>
+              <td>PUT /api/user, sikeres toast</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>FE_PROFILE_002</strong></td>
+              <td>Profil</td>
+              <td>Jelszóváltoztatás eltérés</td>
+              <td>Forma validációs hiba, toast</td>
+              <td><span class="pass-badge">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box" style="margin-top: 30px">
+          <strong>📊 Tesztelési összefoglalás:</strong><br />
+          Backend tesztek: 24 / 24 PASS ✓<br />
+          Frontend tesztek: 32 / 32 PASS ✓<br />
+          Összesen: 56 / 56 PASS ✓ (100% success rate)
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

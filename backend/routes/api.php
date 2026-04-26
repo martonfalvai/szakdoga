@@ -17,7 +17,7 @@ use App\Http\Middleware\Admin;
 
 // ─── PUBLIKUS ────────────────────────────────────────────────────────────────
 
-Route::post('/contact', [ContactController::class, 'store']);
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:3,1');
 
 Route::get('/rents', [RentController::class, 'mainPageRents']);
 Route::get('/rents/{id}', [RentController::class, 'show']);

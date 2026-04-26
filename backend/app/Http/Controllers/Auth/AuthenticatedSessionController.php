@@ -39,7 +39,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logout successful']);
+        // Összes token törlése (biztonságosabb)
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'Kijelentkezett. Viszlát!']);
     }
 }

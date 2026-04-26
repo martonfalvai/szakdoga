@@ -19,7 +19,7 @@ class UploadController extends Controller
             $request->validate([
                 'rent_id' => 'required|exists:rents,id',
                 'images' => 'required|array',
-                'images.*' => 'required|image|max:40960',
+                'images.*' => 'required|image|mimes:jpeg,png,webp|max:10240',  // 10MB max, JPG/PNG/WebP only
                 'default_image_index' => 'nullable|integer'
             ]);
         } catch (\Exception $e) {
