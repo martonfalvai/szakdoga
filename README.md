@@ -34,21 +34,6 @@ A MAPUMA egy modern webalkalmazás, amely lehetővé teszi a hosszú és rövid 
 
 ---
 
-## Dokumentáció
-
-A teljes dokumentáció a projekt gyökerében található:
-
-- 📄 **[API Dokumentáció](API_DOKUMENTACIO_TELJES.md)** - Összes API végpont
-- 📄 **[Tesztelés Stratégia](TESZTELÉS_ÉS_DRÓTVÁZAK.md)** - Unit, integráció, E2E tesztek
-- 📄 **[Telepítés Útmutató](TELEPÍTÉS_ÉS_KONFIGURÁCIÓ.md)** - Dev, Docker, production
-- 📄 **[Biztonsági Útmutató](BIZTONSAG_ÉS_BEST_PRACTICES.md)** - Security best practices
-- 📄 **[Fejlesztési Lehetőségek](FEJLESZTÉSI_LEHETŐSÉGEK.md)** - Future features
-- 📄 **[Dokumentáció Index](DOKUMENTÁCIÓ_INDEX.md)** - Összes dokumentum áttekintése
-
----
-
-## Gyors Kezdés
-
 ### Fejlesztői Telepítés
 
 ```bash
