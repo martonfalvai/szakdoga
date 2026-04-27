@@ -4,15 +4,6 @@
 
 A MAPUMA egy modern webalkalmazás, amely lehetővé teszi a hosszú és rövid távú ingatlan kiadást. Az alkalmazás egyetlen felületen kapcsolja össze a tulajdonosokat és bérlőket, megkönnyítve a kommunikációt és az értékeléseket.
 
-**Fő Funkciók**:
-
-- Ingatlan hirdetések böngészése és szűrése
-- Saját hirdetések létrehozása és kezelése
-- Bérlés indítása és kezelése
-- Kölcsönös értékelési rendszer
-- Beépített csevegő
-- Admin felület
-
 ---
 
 ## Technológiai Stack
