@@ -45,6 +45,13 @@ return new class extends Migration
             "password" => bcrypt("admin123"),
             "role" => 0,
         ]);
+
+        User::create([
+            "name" => "user",
+            "email" => "user@example.com",
+            "password" => bcrypt("user123"),
+            "role" => 1,
+        ]);
     }
 
     /**
