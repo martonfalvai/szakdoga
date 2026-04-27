@@ -6,6 +6,7 @@ import ImageUpload from "../components/ImageUploader";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import UtilitySelector from "../components/ui/UtilitySelector";
 import styles from "./CreateAdvertisement.module.css";
 import toast from "react-hot-toast";
 
@@ -531,30 +532,11 @@ const CreateAdvertisement = () => {
 
             <div className={styles.formGroup}>
               <Label>Felszereltség</Label>
-              <div className={styles.utilitiesCheckboxes}>
-                {utilities.map((utility) => (
-                  <label key={utility.id} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      checked={selectedUtilities.includes(utility.id)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedUtilities([
-                            ...selectedUtilities,
-                            utility.id,
-                          ]);
-                        } else {
-                          setSelectedUtilities(
-                            selectedUtilities.filter((id) => id !== utility.id)
-                          );
-                        }
-                      }}
-                      className={styles.checkbox}
-                    />
-                    <span>{utility.name}</span>
-                  </label>
-                ))}
-              </div>
+              <UtilitySelector
+                options={utilities}
+                selected={selectedUtilities}
+                onChange={setSelectedUtilities}
+              />
             </div>
 
             <Button
