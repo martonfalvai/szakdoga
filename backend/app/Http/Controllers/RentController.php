@@ -291,13 +291,4 @@ class RentController extends Controller
 
         return response()->json($rents);
     }
-
-    public function highlight(Rent $rent)
-    {
-        $rent->update(['highlighted' => now()]);
-        return response()->json([
-            'message' => 'Hirdetés kiemelve',
-            'rent' => $rent,
-        ]);
-    }
 }
